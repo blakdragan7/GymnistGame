@@ -31,7 +31,9 @@ void USwingMovementComponenet::SwingPhys(float deltaTime,int32 Iterations)
 
 		// Calculate Swing Velocity and Update Actor Position
 		float dotProduct = FVector::DotProduct(StartingRadius.GetSafeNormal(), radius.GetSafeNormal());
-		float angle = acos(dotProduct);
+		float angle = 0;
+		if (dotProduct == 1.0)angle = 0;
+		else angle = acos(dotProduct);
 		angle = FMath::IsNearlyZero(angle,.001f) ? 0 : angle;
 		float Tension = (Velocity.SizeSquared() / RadiusLength) + (980 * cos(angle));
 		Velocity += radius.SafeNormal() * Tension * deltaTime;
