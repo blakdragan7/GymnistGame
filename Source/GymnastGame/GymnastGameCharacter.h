@@ -10,7 +10,10 @@ UCLASS(config=Game)
 class AGymnastGameCharacter : public ACharacter
 {
 	GENERATED_BODY()
-
+private:
+	/* Velocity Used to Launch Player after Swinging. Calculated Via lastPosition - currentPosition */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	FVector LastSwingVelocity;
 	/** Camera boom positioning the camera behind the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom;
@@ -19,7 +22,7 @@ class AGymnastGameCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
 public:
-	AGymnastGameCharacter(const class FObjectInitializer& ObjectInitializer);
+	AGymnastGameCharacter();
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
