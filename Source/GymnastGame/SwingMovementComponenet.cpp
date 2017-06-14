@@ -27,7 +27,8 @@ void USwingMovementComponenet::SwingPhys(float deltaTime,int32 Iterations)
 		FRotator newRotation = FRotationMatrix::MakeFromXZ(radius, ActorCurrentUp).Rotator();
 		GetOwner()->SetActorRotation(newRotation);
 
-		FVector ActorCurrentTangentVector = (RestingLocation - myLocation).GetSafeNormal();
+		double ActorUpVectorToStartingPosDot = FVector::DotProduct(ActorCurrentUp, (RestingLocation - myLocation).GetSafeNormal());
+		FVector ActorCurrentTangentVector = ActorUpVectorToStartingPosDot > 0 ? ActorCurrentUp : (ActorCurrentUp * -1);
 
 		// Calculate Swing Velocity and Update Actor Position
 		float dotProduct = FVector::DotProduct(StartingRadius.GetSafeNormal(), radius.GetSafeNormal());
@@ -36,16 +37,17 @@ void USwingMovementComponenet::SwingPhys(float deltaTime,int32 Iterations)
 		else angle = acos(dotProduct);
 		angle = FMath::IsNearlyZero(angle,.001f) ? 0 : angle;
 		float Tension = (Velocity.SizeSquared() / RadiusLength) + (980 * cos(angle));
-		Velocity += radius.SafeNormal() * Tension * deltaTime;
-		Velocity += (myLocation - SwingCenterLocation).GetSafeNormal() * 980 * cos(angle)*deltaTime;
-		Velocity += ActorCurrentTangentVector * 980 * sin(angle)*deltaTime;
+		FVector ForceSum = radius.SafeNormal() * Tension;
+		ForceSum += (myLocation - SwingCenterLocation).GetSafeNormal() * 980 * cos(angle);
+		ForceSum += ActorCurrentTangentVector * 980 * sin(angle);
+		Velocity += ForceSum * deltaTime;
 
 		GEngine->AddOnScreenDebugMessage(0, 0.5f, FColor::Yellow, ActorCurrentUp.ToString());
 		GEngine->AddOnScreenDebugMessage(1, 0.5f, FColor::Yellow, ActorCurrentTangentVector.ToString());
-		GEngine->AddOnScreenDebugMessage(2, 0.5f, FColor::Yellow, FString::Printf(TEXT("%f"), dotProduct));
-		GEngine->AddOnScreenDebugMessage(3, 0.5f, FColor::Yellow, FString::Printf(TEXT("%f"), angle));
+		GEngine->AddOnScreenDebugMessage(3, 0.5f, FColor::Yellow, FString::Printf(TEXT("%f"), ActorUpVectorToStartingPosDot));
+		//GEngine->AddOnScreenDebugMessage(3, 0.5f, FColor::Yellow, FString::Printf(TEXT("%f"), angle));
 
-		Velocity *= 0.99;
+		//Velocity *= 0.99;
 		if (bHasInput)
 		{
 			bHasInput = false;
