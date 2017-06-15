@@ -12,11 +12,16 @@
  * This component Only keeps track of The Last Velocity Given
  * and only does anything with SimulatePhysics Turned on
  */
-UCLASS()
+UCLASS(Blueprintable, BlueprintType, ClassGroup = (Swing), meta = (BlueprintSpawnableComponent))
 class GYMNASTGAME_API USwingMovementComponent : public UMovementComponent
 {
 	GENERATED_BODY()
 private:
+	bool	LastActorLocationIsValid;
+	FVector LastActorLocation;
+	/* The Component that will be effected by Swing Gravity */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Swing Physics", meta = (AllowPrivateAccess = "true"))
+	UPrimitiveComponent* PhysicsComponent;
 	/* The Actor thats location will be set to the offset and rotation of this owners swing result */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Swing Physics", meta = (AllowPrivateAccess = "true"))
 	AActor* AEffectedActor;
@@ -40,6 +45,12 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Swing Settings")
 	void SetEffectedActor(AActor* newEffectedActor);
+
+	UFUNCTION(BlueprintCallable, Category = "Swing Settings")
+	void SetPhysicsComponent(UPrimitiveComponent* newPhysicsComponent);
+
+	UFUNCTION(BlueprintCallable, Category = "Swing Settings")
+	void RemoveEffectedActor();
 
 	/* If True then Swing Radius Component will be used for updates and if false Swing Radius will be used instead */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Swing Settings")

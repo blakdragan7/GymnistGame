@@ -8,10 +8,11 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "FlightCharacterMovementComponent.h"
 //////////////////////////////////////////////////////////////////////////
 // AGymnastGameCharacter
 
-AGymnastGameCharacter::AGymnastGameCharacter()
+AGymnastGameCharacter::AGymnastGameCharacter(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer.SetDefaultSubobjectClass<UFlightCharacterMovementComponent>(ACharacter::CharacterMovementComponentName))
 {
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
