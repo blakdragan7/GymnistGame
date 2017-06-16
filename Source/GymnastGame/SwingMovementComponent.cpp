@@ -1,5 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "SwingMovementComponent.h"
+#include "DrawDebugHelpers.h"
 #include "GameFramework/Actor.h"
 #include "Runtime/Engine/Classes/Kismet/KismetMathLibrary.h"
 #include "Runtime/Engine/Classes/Components/StaticMeshComponent.h"
@@ -28,6 +29,8 @@ void USwingMovementComponent::TickComponent(float DeltaTime, enum ELevelTick Tic
 		if (LastActorLocationIsValid)
 		{
 			Velocity = (CurrentActorLocation-LastActorLocation) / DeltaTime;
+			DrawDebugDirectionalArrow(GetWorld(), CurrentActorLocation, CurrentActorLocation + Velocity,
+				100.f, FColor::Red, false, -1.f, (uint8)'\000', 10.f);
 		}
 		else
 		{
@@ -36,7 +39,7 @@ void USwingMovementComponent::TickComponent(float DeltaTime, enum ELevelTick Tic
 
 		LastActorLocation = CurrentActorLocation;
 	}
-
+	// Apply Tanget Gravity force for Pendulum Motion
 	if (IsValid(PhysicsComponent))
 	{
 		FRotator rotation = PhysicsComponent->GetComponentRotation();
