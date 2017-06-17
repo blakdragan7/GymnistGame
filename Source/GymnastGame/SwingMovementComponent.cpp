@@ -20,6 +20,7 @@ void USwingMovementComponent::TickComponent(float DeltaTime, enum ELevelTick Tic
 			FVector CrossProduct = FVector::CrossProduct(upVector, DirectionVector);
 			FRotator rotator = UKismetMathLibrary::RotatorFromAxisAndAngle(CrossProduct, FMath::Acos(DotProduct));
 			AEffectedActor->SetActorRotation(AEffectedActor->GetActorRotation()+rotator);
+			// TODO: Implement Better Rotation To Center point and Reset Rotatiation after Launch
 			//UKismetMathLibrary::FindLookAtRotation
 		}
 		else
@@ -29,7 +30,7 @@ void USwingMovementComponent::TickComponent(float DeltaTime, enum ELevelTick Tic
 		if (LastActorLocationIsValid)
 		{
 			Velocity = (CurrentActorLocation-LastActorLocation) / DeltaTime;
-			DrawDebugDirectionalArrow(GetWorld(), CurrentActorLocation, CurrentActorLocation + Velocity,
+			DrawDebugDirectionalArrow(GetWorld(), CurrentActorLocation, CurrentActorLocation + (Velocity.GetSafeNormal() * 100.0),
 				100.f, FColor::Red, false, -1.f, (uint8)'\000', 10.f);
 		}
 		else
