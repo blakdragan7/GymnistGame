@@ -34,9 +34,13 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Swing Physics", meta = (AllowPrivateAccess = "true"))
 	USceneComponent* USwingRadiusComponent;
 
-	/* Same as SwingRadius Except the Components position is used instead of a float radius */
+	/* Angle between the Physics componenets restinng poisiton and current position  */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Swing Physics", meta = (AllowPrivateAccess = "true"))
 	float fCurrnetAngleFromRestingPoint;
+
+	/* Dot Product between the Physics componenets restinng poisiton and current position  */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Swing Physics", meta = (AllowPrivateAccess = "true"))
+	float fCurrentDotProduct;
 
 public:
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
