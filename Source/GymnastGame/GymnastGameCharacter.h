@@ -17,7 +17,6 @@ private:
 
 	bool CanAddLowerImpulse;
 	bool CanAddUpperImpulse;
-	bool HasStartingAngle;
 
 	FVector StartingTilt;
 	FVector StartingGravity;
@@ -37,6 +36,10 @@ public:
 	// Actor Overrides
 	void Tick(float DeltaTime)override;
 	void BeginPlay()override;
+
+	/** Resets Starting Angle for Swing Calcuation. */
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Swing Control")
+	bool bNeedsNewStartingLocation;
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)

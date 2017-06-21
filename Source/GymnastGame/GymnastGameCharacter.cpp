@@ -24,7 +24,7 @@ AGymnastGameCharacter::AGymnastGameCharacter(const FObjectInitializer& ObjectIni
 	CanAddLowerImpulse = true;
 	CanAddUpperImpulse = true;
 
-	HasStartingAngle = false;
+	bNeedsNewStartingLocation = true;
 
 	fTiltAngleTresh = 45.0;
 
@@ -72,9 +72,9 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 
 		double CurrentAngle = CurrentTilt.Z * 90.0;
 
-		if (!HasStartingAngle)
+		if (bNeedsNewStartingLocation)
 		{
-			HasStartingAngle = true;
+			bNeedsNewStartingLocation = false;
 			StartingAngle = CurrentAngle;
 			return;
 		}
