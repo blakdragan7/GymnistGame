@@ -24,8 +24,9 @@ AGymnastGameCharacter::AGymnastGameCharacter(const FObjectInitializer& ObjectIni
 	CanAddLowerImpulse = true;
 	CanAddUpperImpulse = true;
 
-	fLowerTiltAngleTresh = 100;
-	fUpperTiltAngleTresh = 170;
+	HasStartingAngle = false;
+
+	fTiltAngleTresh = 45.0;
 
 	// set our turn rates for input
 	BaseTurnRate = 45.f;
@@ -71,13 +72,20 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 
 		double CurrentAngle = CurrentTilt.Z * 90.0;
 
-		if (CurrentAngle < fLowerTiltAngleTresh && CanAddLowerImpulse)
+		if (!HasStartingAngle)
+		{
+			HasStartingAngle = true;
+			StartingAngle = CurrentAngle;
+			return;
+		}
+
+		if (CurrentAngle - StartingAngle < -fTiltAngleTresh && CanAddLowerImpulse)
 		{
 			AddImpulseToSwing(1);
 			CanAddLowerImpulse = false;
 			CanAddUpperImpulse = true;
 		}
-		if (CurrentAngle > fUpperTiltAngleTresh && CanAddUpperImpulse)
+		if (CurrentAngle - StartingAngle > fTiltAngleTresh && CanAddUpperImpulse)
 		{
 			AddImpulseToSwing(-1);
 			CanAddLowerImpulse = true;

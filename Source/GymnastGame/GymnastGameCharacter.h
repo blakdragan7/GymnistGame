@@ -13,8 +13,11 @@ class AGymnastGameCharacter : public ACharacter
 private:
 	APlayerController* currentController;
 
+	float StartingAngle;
+
 	bool CanAddLowerImpulse;
 	bool CanAddUpperImpulse;
+	bool HasStartingAngle;
 
 	FVector StartingTilt;
 	FVector StartingGravity;
@@ -43,13 +46,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
-	/* Angle The Tilt Mush Pass To have Add Impulse To Swing Called */
+	/* Angle The Tilt Must Pass To have Add Impulse To Swing Called */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Swing Control")
-	float fLowerTiltAngleTresh;
-
-	/* Angle The Tilt Mush Pass To have Add Impulse To Swing Called */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Swing Control")
-	float fUpperTiltAngleTresh;
+	float fTiltAngleTresh;
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Swing Control")
 	void AddImpulseToSwing(int32 direction);
