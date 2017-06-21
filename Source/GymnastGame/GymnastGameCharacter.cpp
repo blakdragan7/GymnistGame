@@ -82,7 +82,7 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 		Angle1 = FMath::Atan(CrossProduct.Y / CrossProduct.X);
 		Angle2 = FMath::Acos(CrossProduct.Z / radius);
 
-		GEngine->AddOnScreenDebugMessage(0, 0.5f, FColor::Blue, FString::Printf(TEXT("Angle1 : %f, Angle2 : %f, Radius : %f"), FMath::RadiansToDegrees(Angle1), FMath::RadiansToDegrees(Angle2), FMath::RadiansToDegrees(radius)));
+		GEngine->AddOnScreenDebugMessage(1, 0.5f, FColor::Blue, FString::Printf(TEXT("Angle1 : %f, Angle2 : %f, Radius : %f"), FMath::RadiansToDegrees(Angle1), FMath::RadiansToDegrees(Angle2), FMath::RadiansToDegrees(radius)));
 	}
 }
 void AGymnastGameCharacter::BeginPlay()
