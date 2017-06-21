@@ -14,15 +14,7 @@ void USwingMovementComponent::TickComponent(float DeltaTime, enum ELevelTick Tic
 		if (bUseSwingComponent)
 		{
 			AEffectedActor->SetActorLocation(USwingRadiusComponent->GetComponentLocation());
-			FVector upVector = AEffectedActor->GetActorUpVector();
-			FVector DirectionVector = (GetOwner()->GetActorLocation() - CurrentActorLocation).GetSafeNormal();
-			fCurrentDotProduct = FVector::DotProduct(upVector,DirectionVector);
-			FVector CrossProduct = FVector::CrossProduct(upVector, DirectionVector);
-			fCurrnetAngleFromRestingPoint = FMath::Acos(fCurrentDotProduct);
-			FRotator rotator = UKismetMathLibrary::RotatorFromAxisAndAngle(CrossProduct, fCurrnetAngleFromRestingPoint);
-			AEffectedActor->SetActorRotation(AEffectedActor->GetActorRotation()+rotator);
-			// TODO: Implement Better Rotation To Center point and Reset Rotatiation after Launch
-			//UKismetMathLibrary::FindLookAtRotation
+			AEffectedActor->SetActorRotation(USwingRadiusComponent->GetComponentRotation());
 		}
 		else
 		{

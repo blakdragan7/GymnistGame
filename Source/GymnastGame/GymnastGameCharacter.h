@@ -11,6 +11,9 @@ class AGymnastGameCharacter : public ACharacter
 {
 	GENERATED_BODY()
 private:
+	APlayerController* currentController;
+
+	FVector StartingTilt;
 	/* Velocity Used to Launch Player after Swinging. Calculated Via lastPosition - currentPosition */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	FVector LastSwingVelocity;
@@ -23,6 +26,10 @@ private:
 	class UCameraComponent* FollowCamera;
 public:
 	AGymnastGameCharacter(const FObjectInitializer& ObjectInitializer);
+
+	void Tick(float DeltaTime)override;
+
+	void BeginPlay()override;
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)

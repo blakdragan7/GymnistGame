@@ -9,6 +9,7 @@
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "FlightCharacterMovementComponent.h"
+#include "GameFramework/PlayerController.h"
 //////////////////////////////////////////////////////////////////////////
 // AGymnastGameCharacter
 
@@ -16,6 +17,8 @@ AGymnastGameCharacter::AGymnastGameCharacter(const FObjectInitializer& ObjectIni
 {
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
+
+	currentController = 0;
 
 	// set our turn rates for input
 	BaseTurnRate = 45.f;
@@ -47,6 +50,37 @@ AGymnastGameCharacter::AGymnastGameCharacter(const FObjectInitializer& ObjectIni
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 }
 
+void AGymnastGameCharacter::Tick(float DeltaTime)
+{
+	ACharacter::Tick(DeltaTime);
+	if (currentController)
+	{
+		FVector CurrentTilt;
+		FVector CurrentGravity;
+		FVector CurrentAccel;
+		FVector CurrentRotationRate;
+
+		currentController->GetInputMotionState(CurrentTilt, CurrentRotationRate, CurrentGravity, CurrentAccel);
+		
+		if (StartingTilt.IsNearlyZero())
+		{
+			StartingTilt = CurrentTilt;
+			return;
+		}
+
+		FVector CrossProduct = FVector::CrossProduct(CurrentTilt,StartingTilt);
+		double radius = CrossProduct.Size();
+		double Angle1 = FMath::Atan(CrossProduct.Y / CrossProduct.X);
+		double Angle2 = FMath::Acos(CrossProduct.Z / radius);
+
+		GEngine->AddOnScreenDebugMessage(0, 0.5f, FColor::Red, FString::Printf(TEXT("Angle1 : %f, Angle2 : %f, Radius : %f"),Angle1,Angle2,radius));
+	}
+}
+void AGymnastGameCharacter::BeginPlay()
+{
+	ACharacter::BeginPlay();
+	currentController = Cast<APlayerController>(GetController());
+}
 //////////////////////////////////////////////////////////////////////////
 // Input
 
@@ -59,7 +93,7 @@ void AGymnastGameCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &AGymnastGameCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AGymnastGameCharacter::MoveRight);
-
+	
 	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
 	// "turn" handles devices that provide an absolute delta, such as a mouse.
 	// "turnrate" is for devices that we choose to treat as a rate of change, such as an analog joystick
