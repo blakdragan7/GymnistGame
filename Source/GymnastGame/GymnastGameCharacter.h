@@ -13,16 +13,8 @@ class AGymnastGameCharacter : public ACharacter
 private:
 	APlayerController* currentController;
 
-	double previousTiltRadius;
-	double previousGravityRadius;
-
-	int deltaGravityRadiusDirection;
-	int deltaTiltRadiusDirection;
-
-	bool hasPreviousGravity;
-	bool hasPreviousTilt;
-	bool hasPreviousGravityDirection;
-	bool hasPreviousTiltDirection;
+	bool CanAddLowerImpulse;
+	bool CanAddUpperImpulse;
 
 	FVector StartingTilt;
 	FVector StartingGravity;
@@ -50,6 +42,14 @@ public:
 	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
+
+	/* Angle The Tilt Mush Pass To have Add Impulse To Swing Called */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Swing Control")
+	float fLowerTiltAngleTresh;
+
+	/* Angle The Tilt Mush Pass To have Add Impulse To Swing Called */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Swing Control")
+	float fUpperTiltAngleTresh;
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Swing Control")
 	void AddImpulseToSwing(int32 direction);
