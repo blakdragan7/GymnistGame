@@ -87,7 +87,8 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 		double Angle2 = FMath::RadiansToDegrees(FMath::Acos(CrossProduct.Z / radius));
 		if (hasPreviousTilt)
 		{
-			int currentDirection = FMath::Sign<int>(FMath::Round(radius) - FMath::Round(previousTiltRadius));
+			double deltaRadius = radius - previousTiltRadius;
+			double currentDirection = FMath::Sign<double>(deltaRadius);
 			if (currentDirection != deltaTiltRadiusDirection && currentDirection != 0 && hasPreviousTiltDirection)
 			{
 				GEngine->AddOnScreenDebugMessage(1, 0.5f, FColor::Blue, FString::Printf(TEXT("Tilt Delta Change!")));
@@ -95,9 +96,8 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 			deltaTiltRadiusDirection = currentDirection;
 			hasPreviousTiltDirection = true;
 			GEngine->AddOnScreenDebugMessage(0, 0.5f, FColor::Red,
-					FString::Printf(TEXT("Angle1 : %f, Angle2 : %f, Radius : %f, Direction: %f"),
-					Angle1, Angle2,
-					radius, currentDirection));
+					FString::Printf(TEXT("Angle1 : %f, Angle2 : %f, Radius : %f, Direction: %fm Diff: %f"),
+					Angle1, Angle2, radius, currentDirection, deltaRadius));
 		}
 		previousTiltRadius = radius;
 		hasPreviousTilt = true;
@@ -109,7 +109,8 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 		Angle2 = FMath::RadiansToDegrees(FMath::Acos(CrossProduct.Z / radius));
 		if (hasPreviousGravity)
 		{
-			int currentDirection = FMath::Sign<int>(FMath::Round(radius) - FMath::Round(previousGravityRadius));
+			double deltaRadius = radius - previousGravityRadius;
+			double currentDirection = FMath::Sign<double>(deltaRadius);
 			if (currentDirection != deltaGravityRadiusDirection && currentDirection != 0 && hasPreviousGravityDirection)
 			{
 				GEngine->AddOnScreenDebugMessage(1, 0.5f, FColor::Blue, FString::Printf(TEXT("Graviy Delta Change!")));
@@ -117,9 +118,8 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 			deltaGravityRadiusDirection = currentDirection;
 			hasPreviousGravityDirection = true;
 			GEngine->AddOnScreenDebugMessage(1, 0.5f, FColor::Blue,
-					FString::Printf(TEXT("Angle1 : %f, Angle2 : %f, Radius : %f, Direction: %f"),
-					Angle1, Angle2,
-					radius, currentDirection));
+					FString::Printf(TEXT("Angle1 : %f, Angle2 : %f, Radius : %f, Direction: %f, Diff: %f"),
+					Angle1, Angle2, radius, currentDirection, deltaRadius));
 		}
 		previousGravityRadius = radius;
 		hasPreviousGravity = true;
