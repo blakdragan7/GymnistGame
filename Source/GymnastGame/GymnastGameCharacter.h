@@ -14,6 +14,7 @@ private:
 	APlayerController* currentController;
 
 	FVector StartingTilt;
+	FVector StartingGravity;
 	/* Velocity Used to Launch Player after Swinging. Calculated Via lastPosition - currentPosition */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	FVector LastSwingVelocity;

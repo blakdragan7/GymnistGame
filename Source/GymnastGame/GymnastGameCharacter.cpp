@@ -10,6 +10,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "FlightCharacterMovementComponent.h"
 #include "GameFramework/PlayerController.h"
+#include "Engine.h"
 //////////////////////////////////////////////////////////////////////////
 // AGymnastGameCharacter
 
@@ -61,19 +62,27 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 		FVector CurrentRotationRate;
 
 		currentController->GetInputMotionState(CurrentTilt, CurrentRotationRate, CurrentGravity, CurrentAccel);
-		
+
 		if (StartingTilt.IsNearlyZero())
 		{
 			StartingTilt = CurrentTilt;
+			StartingGravity = CurrentGravity;
 			return;
 		}
 
-		FVector CrossProduct = FVector::CrossProduct(CurrentTilt,StartingTilt);
+		FVector CrossProduct = FVector::CrossProduct(CurrentTilt, StartingTilt);
 		double radius = CrossProduct.Size();
 		double Angle1 = FMath::Atan(CrossProduct.Y / CrossProduct.X);
 		double Angle2 = FMath::Acos(CrossProduct.Z / radius);
 
-		GEngine->AddOnScreenDebugMessage(0, 0.5f, FColor::Red, FString::Printf(TEXT("Angle1 : %f, Angle2 : %f, Radius : %f"),Angle1,Angle2,radius));
+		GEngine->AddOnScreenDebugMessage(0, 0.5f, FColor::Red, FString::Printf(TEXT("Angle1 : %f, Angle2 : %f, Radius : %f"), FMath::RadiansToDegrees(Angle1), FMath::RadiansToDegrees(Angle2), FMath::RadiansToDegrees(radius)));
+
+		CrossProduct = FVector::CrossProduct(CurrentGravity, StartingGravity);
+		radius = CrossProduct.Size();
+		Angle1 = FMath::Atan(CrossProduct.Y / CrossProduct.X);
+		Angle2 = FMath::Acos(CrossProduct.Z / radius);
+
+		GEngine->AddOnScreenDebugMessage(0, 0.5f, FColor::Blue, FString::Printf(TEXT("Angle1 : %f, Angle2 : %f, Radius : %f"), FMath::RadiansToDegrees(Angle1), FMath::RadiansToDegrees(Angle2), FMath::RadiansToDegrees(radius)));
 	}
 }
 void AGymnastGameCharacter::BeginPlay()
