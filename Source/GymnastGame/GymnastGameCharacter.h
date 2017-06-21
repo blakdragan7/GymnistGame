@@ -13,6 +13,17 @@ class AGymnastGameCharacter : public ACharacter
 private:
 	APlayerController* currentController;
 
+	double previousTiltRadius;
+	double previousGravityRadius;
+
+	int deltaGravityRadiusDirection;
+	int deltaTiltRadiusDirection;
+
+	bool hasPreviousGravity;
+	bool hasPreviousTilt;
+	bool hasPreviousGravityDirection;
+	bool hasPreviousTiltDirection;
+
 	FVector StartingTilt;
 	FVector StartingGravity;
 	/* Velocity Used to Launch Player after Swinging. Calculated Via lastPosition - currentPosition */
