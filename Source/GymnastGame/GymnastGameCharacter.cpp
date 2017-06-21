@@ -91,7 +91,7 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 			double currentDirection = FMath::Sign<double>(FMath::Round(deltaRadius));
 			if (currentDirection != deltaTiltRadiusDirection && currentDirection != 0 && hasPreviousTiltDirection)
 			{
-				GEngine->AddOnScreenDebugMessage(1, 0.5f, FColor::Blue, FString::Printf(TEXT("Tilt Delta Change!")));
+				GEngine->AddOnScreenDebugMessage(2, 0.5f, FColor::Blue, FString::Printf(TEXT("Tilt Delta Change!")));
 			}
 			deltaTiltRadiusDirection = currentDirection;
 			hasPreviousTiltDirection = true;
@@ -113,7 +113,8 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 			double currentDirection = FMath::Sign<double>(FMath::Round(deltaRadius));
 			if (currentDirection != deltaGravityRadiusDirection && currentDirection != 0 && hasPreviousGravityDirection)
 			{
-				GEngine->AddOnScreenDebugMessage(1, 0.5f, FColor::Blue, FString::Printf(TEXT("Graviy Delta Change!")));
+				GEngine->AddOnScreenDebugMessage(3, 0.5f, FColor::Blue, FString::Printf(TEXT("Graviy Delta Change!")));
+				AddImpulseToSwing(currentDirection);
 			}
 			deltaGravityRadiusDirection = currentDirection;
 			hasPreviousGravityDirection = true;

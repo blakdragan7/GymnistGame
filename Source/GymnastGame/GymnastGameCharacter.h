@@ -39,8 +39,8 @@ private:
 public:
 	AGymnastGameCharacter(const FObjectInitializer& ObjectInitializer);
 
+	// Actor Overrides
 	void Tick(float DeltaTime)override;
-
 	void BeginPlay()override;
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
@@ -50,6 +50,9 @@ public:
 	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Swing Control")
+	void AddImpulseToSwing(int32 direction);
 
 protected:
 
