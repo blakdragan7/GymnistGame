@@ -82,6 +82,7 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 		}
 
 		FVector CrossProduct = FVector::CrossProduct(CurrentTilt, StartingTilt);
+		double DotProduct = FVector::DotProduct(CurrentTilt,StartingTilt);
 		double radius = FMath::RadiansToDegrees(CrossProduct.Size());
 		double Angle1 = FMath::RadiansToDegrees(FMath::Atan(CrossProduct.Y / CrossProduct.X));
 		double Angle2 = FMath::RadiansToDegrees(FMath::Acos(CrossProduct.Z / radius));
@@ -102,8 +103,8 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 		previousTiltRadius = radius;
 		hasPreviousTilt = true;
 		
-
 		CrossProduct = FVector::CrossProduct(CurrentGravity, StartingGravity);
+		DotProduct = FVector::DotProduct(CurrentGravity, StartingGravity);
 		radius = FMath::RadiansToDegrees(CrossProduct.Size());
 		Angle1 = FMath::RadiansToDegrees(FMath::Atan(CrossProduct.Y / CrossProduct.X));
 		Angle2 = FMath::RadiansToDegrees(FMath::Acos(CrossProduct.Z / radius));
@@ -114,7 +115,7 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 			if (currentDirection != deltaGravityRadiusDirection && currentDirection != 0 && hasPreviousGravityDirection)
 			{
 				GEngine->AddOnScreenDebugMessage(3, 0.5f, FColor::Blue, FString::Printf(TEXT("Graviy Delta Change!")));
-				AddImpulseToSwing(currentDirection);
+				AddImpulseToSwing(FMath::Sign<int>(DotProduct) * FMath::Sign<int>(CrossProduct.Z));
 			}
 			deltaGravityRadiusDirection = currentDirection;
 			hasPreviousGravityDirection = true;
