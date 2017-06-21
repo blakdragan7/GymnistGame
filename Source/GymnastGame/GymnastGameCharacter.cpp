@@ -74,10 +74,14 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 		if (CurrentAngle < fLowerTiltAngleTresh && CanAddLowerImpulse)
 		{
 			AddImpulseToSwing(1);
+			CanAddLowerImpulse = false;
+			CanAddUpperImpulse = true;
 		}
 		if (CurrentAngle > fUpperTiltAngleTresh && CanAddUpperImpulse)
 		{
 			AddImpulseToSwing(-1);
+			CanAddLowerImpulse = true;
+			CanAddUpperImpulse = false;
 		}
 
 		GEngine->AddOnScreenDebugMessage(0, 0.5f, FColor::Red, FString::Printf(TEXT("Angle %f"), CurrentAngle));
