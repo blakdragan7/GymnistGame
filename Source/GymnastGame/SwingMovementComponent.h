@@ -45,6 +45,9 @@ private:
 public:
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "Swing Physics")
+	void ZeroVelocity();
+
 	UFUNCTION(BlueprintCallable, Category = "Swing Settings")
 	void SetSwingRadius(float newRadius);
 
