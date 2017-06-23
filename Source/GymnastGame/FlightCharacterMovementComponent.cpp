@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "FlightCharacterMovementComponent.h"
-
+#include "GymnastGameCharacter.h"
 void UFlightCharacterMovementComponent::PhysCustom(float deltaTime, int32 Iterations)
 {
 	// Simluate Simple Gravity With Drag
@@ -22,6 +22,10 @@ void UFlightCharacterMovementComponent::PhysCustom(float deltaTime, int32 Iterat
 	if (!success)
 	{
 		SetMovementMode(MOVE_Walking);
+		if (AGymnastGameCharacter* character = Cast<AGymnastGameCharacter>(GetCharacterOwner()))
+		{
+			character->HasLanded();
+		}
 	}
 }
 

@@ -53,6 +53,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Swing Control")
 	float fTiltAngleTresh;
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "Swing Physics")
+	void WasLaunched();
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = "Swing Physics")
+	void HasLanded();
+
 	UFUNCTION(BlueprintImplementableEvent, Category = "Swing Control")
 	void AddImpulseToSwing(int32 direction);
 

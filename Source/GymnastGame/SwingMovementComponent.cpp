@@ -41,8 +41,7 @@ void USwingMovementComponent::TickComponent(float DeltaTime, enum ELevelTick Tic
 		FVector AngVel(TangentForce, TangentForce, TangentForce);
 		PhysicsComponent->SetPhysicsAngularVelocity(AngVel,true);
         
-		if (PhysicsComponent->GetComponentVelocity().IsNearlyZero())
-            bIsZeroVelocity = true;
+		if (PhysicsComponent->GetComponentVelocity().IsNearlyZero())bIsZeroVelocity = true;
         else bIsZeroVelocity = false;
 	}
 }
