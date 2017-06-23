@@ -45,9 +45,6 @@ private:
 public:
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 
-	UFUNCTION(BlueprintImplementableEvent, Category = "Swing Physics")
-	void ZeroVelocity();
-
 	UFUNCTION(BlueprintCallable, Category = "Swing Settings")
 	void SetSwingRadius(float newRadius);
 
@@ -66,4 +63,7 @@ public:
 	/* If True then Swing Radius Component will be used for updates and if false Swing Radius will be used instead */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Swing Settings")
 	uint32 bUseSwingComponent:1;
+    /* Is true then the current velocity is close to 0. */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Swing Settings")
+    uint32 bIsZeroVelocity:1;
 };
