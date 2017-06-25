@@ -71,6 +71,8 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 		currentController->GetInputMotionState(CurrentTilt, CurrentRotationRate, CurrentGravity, CurrentAccel);
 
 		double CurrentAngle = CurrentTilt.Z * 90.0;
+		double CurrentAngleX = CurrentTilt.X * 90.0;
+		double CurrentAngleY = CurrentTilt.Y * 90.0;
 
 		if (bNeedsNewStartingLocation)
 		{
@@ -92,7 +94,7 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 			CanAddUpperImpulse = false;
 		}
 
-		GEngine->AddOnScreenDebugMessage(0, 0.5f, FColor::Red, FString::Printf(TEXT("Angle %f"), CurrentAngle));
+		GEngine->AddOnScreenDebugMessage(0, 0.5f, FColor::Red, FString::Printf(TEXT("Angle %f %f %f"), CurrentAngle,CurrentAngleX,CurrentAngleY));
 		
 	}
 }
@@ -113,8 +115,7 @@ void AGymnastGameCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &AGymnastGameCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AGymnastGameCharacter::MoveRight);
-	
-	PlayerInputComponent->BindAxis("Steer",this,&AGymnastGameCharacter::SteerFlight);
+
 	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
 	// "turn" handles devices that provide an absolute delta, such as a mouse.
 	// "turnrate" is for devices that we choose to treat as a rate of change, such as an analog joystick
