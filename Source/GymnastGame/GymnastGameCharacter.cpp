@@ -94,7 +94,7 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 		}
 
 		SteerFlight(CurrentAngleY);
-		GEngine->AddOnScreenDebugMessage(0, 0.5f, FColor::Red, FString::Printf(TEXT("Angle %f %f %f"), CurrentAngle,CurrentAngleX,CurrentAngleY));
+		GEngine->AddOnScreenDebugMessage(0, 0.5f, FColor::Red, FString::Printf(TEXT("Angle %f %f"), CurrentAngle,CurrentAngleY));
 		
 	}
 }
