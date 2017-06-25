@@ -71,7 +71,7 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 		currentController->GetInputMotionState(CurrentTilt, CurrentRotationRate, CurrentGravity, CurrentAccel);
 
 		double CurrentAngle = CurrentTilt.Z * 90.0;
-		double CurrentAngleY = CurrentTilt.Y * 90.0;
+		double CurrentAngleY = CurrentTilt.Y * 1000.0;
 
 		if (bNeedsNewStartingLocation)
 		{
@@ -136,7 +136,7 @@ void AGymnastGameCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 void AGymnastGameCharacter::SteerFlight(float tilt)
 {
 	UFlightCharacterMovementComponent* fMovement = Cast<UFlightCharacterMovementComponent>(GetMovementComponent());
-	fMovement->SetSteerVelocity(FVector(0,-tilt/20,0));
+	fMovement->SetSteerVelocity(FVector(0,-tilt,0));
 }
 
 void AGymnastGameCharacter::OnResetVR()
