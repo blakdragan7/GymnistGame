@@ -14,6 +14,10 @@ class GYMNASTGAME_API UFlightCharacterMovementComponent : public UCharacterMovem
 {
 	GENERATED_BODY()
 private:
+	/* Force ment for input such as tilting phone and moving in that direction */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Flight Physics", Meta = (AllowPrivateAccess = "true"))
+	FVector FSteerForce;
+
 	FVector InstantaneousCustomForce;
 	bool customForceToggle;
 
@@ -36,4 +40,7 @@ public:
 	/* Applies a custom force, param newCustomForce, that is instantaneous, it's similiar to Add Impulse*/
 	UFUNCTION(BlueprintCallable, Category = "Flight Physics")
 	void ApplyInstantaneousForce(const FVector newCustomFoce);
+
+	UFUNCTION()
+	void SetSteerVelocity(FVector steerVelocity);
 };

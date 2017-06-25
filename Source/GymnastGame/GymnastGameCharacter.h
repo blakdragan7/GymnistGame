@@ -63,6 +63,8 @@ public:
 	void AddImpulseToSwing(int32 direction);
 
 protected:
+	/* Steers Flight Based On Tilt */
+	void SteerFlight(float tilt);
 
 	/** Resets HMD orientation in VR. */
 	void OnResetVR();

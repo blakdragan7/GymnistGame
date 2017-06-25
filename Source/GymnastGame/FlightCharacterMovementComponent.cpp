@@ -6,6 +6,7 @@ void UFlightCharacterMovementComponent::PhysCustom(float deltaTime, int32 Iterat
 {
 	// Simluate Simple Gravity With Drag
 	Velocity += CustomGravity * deltaTime;
+	Velocity += FSteerForce * deltaTime;
 	// Apply Custom Forces
 	Velocity += ConstCustomForce*deltaTime;
 	if (customForceToggle)
@@ -42,4 +43,9 @@ void UFlightCharacterMovementComponent::ApplyInstantaneousForce(const FVector ne
 {
 	InstantaneousCustomForce = newCustomFoce;
 	customForceToggle = true;
+}
+
+void UFlightCharacterMovementComponent::SetSteerVelocity(FVector Velocity)
+{
+	FSteerForce = Velocity;
 }

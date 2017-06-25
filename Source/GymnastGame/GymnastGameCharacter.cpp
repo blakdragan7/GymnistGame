@@ -114,6 +114,7 @@ void AGymnastGameCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 	PlayerInputComponent->BindAxis("MoveForward", this, &AGymnastGameCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AGymnastGameCharacter::MoveRight);
 	
+	PlayerInputComponent->BindAxis("Steer",this,&AGymnastGameCharacter::SteerFlight);
 	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
 	// "turn" handles devices that provide an absolute delta, such as a mouse.
 	// "turnrate" is for devices that we choose to treat as a rate of change, such as an analog joystick
@@ -130,6 +131,11 @@ void AGymnastGameCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AGymnastGameCharacter::OnResetVR);
 }
 
+
+void AGymnastGameCharacter::SteerFlight(float tilt)
+{
+	GEngine->AddOnScreenDebugMessage(10, 0.5f, FColor::Yellow, FString::Printf(TEXT("Steer %f"),tilt));
+}
 
 void AGymnastGameCharacter::OnResetVR()
 {
