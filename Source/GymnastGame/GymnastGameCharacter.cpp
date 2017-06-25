@@ -71,7 +71,6 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 		currentController->GetInputMotionState(CurrentTilt, CurrentRotationRate, CurrentGravity, CurrentAccel);
 
 		double CurrentAngle = CurrentTilt.Z * 90.0;
-		double CurrentAngleX = CurrentTilt.X * 90.0;
 		double CurrentAngleY = CurrentTilt.Y * 90.0;
 
 		if (bNeedsNewStartingLocation)
@@ -94,6 +93,7 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 			CanAddUpperImpulse = false;
 		}
 
+		SteerFlight(CurrentAngleY);
 		GEngine->AddOnScreenDebugMessage(0, 0.5f, FColor::Red, FString::Printf(TEXT("Angle %f %f %f"), CurrentAngle,CurrentAngleX,CurrentAngleY));
 		
 	}
@@ -135,7 +135,8 @@ void AGymnastGameCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 
 void AGymnastGameCharacter::SteerFlight(float tilt)
 {
-	GEngine->AddOnScreenDebugMessage(10, 0.5f, FColor::Yellow, FString::Printf(TEXT("Steer %f"),tilt));
+	UFlightCharacterMovementComponent* fMovement = Cast<UFlightCharacterMovementComponent>(GetMovementComponent());
+	fMovement->SetSteerVelocity(FVector(0,-tilt/20,0));
 }
 
 void AGymnastGameCharacter::OnResetVR()
