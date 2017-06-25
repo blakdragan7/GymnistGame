@@ -6,7 +6,6 @@ void UFlightCharacterMovementComponent::PhysCustom(float deltaTime, int32 Iterat
 {
 	// Simluate Simple Gravity With Drag
 	Velocity += CustomGravity * deltaTime;
-	Velocity += FSteerForce * deltaTime;
 	// Apply Custom Forces
 	Velocity += ConstCustomForce*deltaTime;
 	if (customForceToggle)
@@ -17,6 +16,7 @@ void UFlightCharacterMovementComponent::PhysCustom(float deltaTime, int32 Iterat
 	}
 	// Apply Drag
 	Velocity *= CustomDrag;
+	Velocity.Y = FSteerForce.Y;
 	// Move Charecter
 	FHitResult Hit;
 	bool success = SafeMoveUpdatedComponent(Velocity*deltaTime, UpdatedComponent->GetComponentRotation(), true, Hit);
@@ -47,6 +47,5 @@ void UFlightCharacterMovementComponent::ApplyInstantaneousForce(const FVector ne
 
 void UFlightCharacterMovementComponent::SetSteerVelocity(FVector steerVelocity)
 {
-	//FSteerForce = Velocity;
-	Velocity.Y = steerVelocity.Y;
+	FSteerForce = Velocity;
 }
