@@ -16,11 +16,11 @@ void UFlightCharacterMovementComponent::PhysCustom(float deltaTime, int32 Iterat
 	}
 	// Apply Drag
 	Velocity *= CustomDrag;
-	Velocity.Y = FSteerForce.Y;
 	
+	GEngine->AddOnScreenDebugMessage(3, 0.5f, FColor::Red, FSteerForce.ToString());
 	// Move Charecter
 	FHitResult Hit;
-	bool success = SafeMoveUpdatedComponent(Velocity*deltaTime, UpdatedComponent->GetComponentRotation(), true, Hit);
+	bool success = SafeMoveUpdatedComponent((Velocity+FSteerForce)*deltaTime, UpdatedComponent->GetComponentRotation(), true, Hit);
 	if (!success)
 	{
 		SetMovementMode(MOVE_Walking);
