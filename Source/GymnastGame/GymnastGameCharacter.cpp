@@ -71,7 +71,7 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 		currentController->GetInputMotionState(CurrentTilt, CurrentRotationRate, CurrentGravity, CurrentAccel);
 
 		double CurrentAngle = CurrentTilt.Z * 90.0;
-		double CurrentAngleY = CurrentTilt.Y * 500.0;
+		double CurrentAngleY = CurrentTilt.Y * 1000.0;
 
 		if (bNeedsNewStartingLocation)
 		{
