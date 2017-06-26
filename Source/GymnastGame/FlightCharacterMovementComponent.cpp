@@ -16,7 +16,7 @@ void UFlightCharacterMovementComponent::PhysCustom(float deltaTime, int32 Iterat
 	}
 	// Apply Drag
 	Velocity *= CustomDrag;
-	Velocity.X = FSteerForce.X;
+	Velocity.Y = FSteerForce.Y;
 	
 	// Move Charecter
 	FHitResult Hit;
