@@ -2,6 +2,7 @@
 
 #include "FlightCharacterMovementComponent.h"
 #include "GymnastGameCharacter.h"
+#include "Engine.h"
 void UFlightCharacterMovementComponent::PhysCustom(float deltaTime, int32 Iterations)
 {
 	// Simluate Simple Gravity With Drag
