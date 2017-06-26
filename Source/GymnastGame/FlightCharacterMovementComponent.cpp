@@ -49,5 +49,5 @@ void UFlightCharacterMovementComponent::ApplyInstantaneousForce(const FVector ne
 
 void UFlightCharacterMovementComponent::SetSteerVelocity(FVector steerVelocity)
 {
-	FSteerForce = Velocity;
+	FSteerForce = steerVelocity;
 }
