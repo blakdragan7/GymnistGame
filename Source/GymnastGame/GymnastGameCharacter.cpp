@@ -136,7 +136,7 @@ void AGymnastGameCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 void AGymnastGameCharacter::SteerFlight(float tilt)
 {
 	UFlightCharacterMovementComponent* fMovement = Cast<UFlightCharacterMovementComponent>(GetMovementComponent());
-	fMovement->SetSteerVelocity(FVector(0,0, -tilt));
+	fMovement->SetSteerVelocity(FVector(0,-tilt,0));
 }
 
 void AGymnastGameCharacter::OnResetVR()
