@@ -37,6 +37,13 @@ public:
 	void Tick(float DeltaTime)override;
 	void BeginPlay()override;
 
+	/** Amount to Multiply the X Tilt amount. Affects @TiltAngleTresh */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Swing Control")
+	float TiltRotateAmount;
+	/** Amount to Steer Actor after being launched from the Y tilt of the mobile device.  */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Swing Control")
+	float TiltSteerAmount;
+
 	/** Resets Starting Angle for Swing Calcuation. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Swing Control")
 	bool bNeedsNewStartingLocation;
@@ -51,14 +58,17 @@ public:
 
 	/* Angle The Tilt Must Pass To have Add Impulse To Swing Called */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Swing Control")
-	float fTiltAngleTresh;
+	float TiltAngleTresh;
 
+	/* Called when charecter is launched From a Swing */
 	UFUNCTION(BlueprintImplementableEvent, Category = "Swing Physics")
 	void WasLaunched();
 	
+	/* Called when a chareter lands on the ground after a launch */
 	UFUNCTION(BlueprintImplementableEvent, Category = "Swing Physics")
 	void HasLanded();
 
+	/* Called when Force should be added to the swing actor to simulate pendulam mechanics  */
 	UFUNCTION(BlueprintImplementableEvent, Category = "Swing Control")
 	void AddImpulseToSwing(int32 direction);
 

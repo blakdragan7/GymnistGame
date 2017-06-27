@@ -26,7 +26,9 @@ AGymnastGameCharacter::AGymnastGameCharacter(const FObjectInitializer& ObjectIni
 
 	bNeedsNewStartingLocation = true;
 
-	fTiltAngleTresh = 45.0;
+	TiltRotateAmount = 90;
+	TiltAngleTresh = 45.0;
+	TiltSteerAmount = 500;
 
 	// set our turn rates for input
 	BaseTurnRate = 45.f;
@@ -70,8 +72,8 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 
 		currentController->GetInputMotionState(CurrentTilt, CurrentRotationRate, CurrentGravity, CurrentAccel);
 
-		double CurrentAngle = CurrentTilt.Z * 90.0;
-		double CurrentAngleY = CurrentTilt.Y * 1000.0;
+		double CurrentAngle = CurrentTilt.Z * TiltRotateAmount;
+		double CurrentAngleY = CurrentTilt.Y * TiltSteerAmount;
 
 		if (bNeedsNewStartingLocation)
 		{
@@ -80,13 +82,13 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 			return;
 		}
 
-		if (CurrentAngle - StartingAngle < -fTiltAngleTresh && CanAddLowerImpulse)
+		if (CurrentAngle - StartingAngle < -TiltAngleTresh && CanAddLowerImpulse)
 		{
 			AddImpulseToSwing(1);
 			CanAddLowerImpulse = false;
 			CanAddUpperImpulse = true;
 		}
-		if (CurrentAngle - StartingAngle > fTiltAngleTresh && CanAddUpperImpulse)
+		if (CurrentAngle - StartingAngle > TiltAngleTresh && CanAddUpperImpulse)
 		{
 			AddImpulseToSwing(-1);
 			CanAddLowerImpulse = true;
