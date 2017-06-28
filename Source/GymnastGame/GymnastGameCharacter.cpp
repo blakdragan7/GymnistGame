@@ -78,7 +78,7 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 		double CurrentTiltY = (CurrentTilt.Y - StartingSteerY);
 		double CurrentCosTiltX = FMath::Cos(CurrentTilt.Y - StartingSteerY);
 		double CurrentSinTiltY = FMath::Sin(CurrentTilt.Y - StartingSteerY);
-		double CurrentAngleY = (FMath::Cos(CurrentTiltX) + FMath::Sin(CurrentTiltY)) * TiltSteerAmount;
+		double CurrentAngleY = (FMath::Cos(CurrentTiltX*PI) + FMath::Sin(CurrentTiltY*PI)) * TiltSteerAmount;
 
 		if (bNeedsNewStartingLocation)
 		{
@@ -108,7 +108,7 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 			100.f, FColor::Red, false, -1.f, (uint8)'\000', 10.f);
 		SteerFlight(CurrentAngleY);
 		GEngine->AddOnScreenDebugMessage(0, 0.5f, FColor::Red, FString::Printf(TEXT("Angle %f %f"), CurrentAngle, CurrentAngleY));
-		GEngine->AddOnScreenDebugMessage(1, 0.5f, FColor::Red, FString::Printf(TEXT("tilt %f %f"), CurrentTiltX, CurrentTiltY));
+		GEngine->AddOnScreenDebugMessage(1, 0.5f, FColor::Red, FString::Printf(TEXT("tilt %f %f"), CurrentTiltX-180, CurrentTiltY*180));
 		GEngine->AddOnScreenDebugMessage(2, 0.5f, FColor::Red, FString::Printf(TEXT("cos tilt %f %f"), CurrentCosTiltX, CurrentSinTiltY));
 		
 	}
