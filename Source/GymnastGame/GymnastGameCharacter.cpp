@@ -11,7 +11,7 @@
 #include "FlightCharacterMovementComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "Engine.h"
-#define M_PI 3.14159265359
+#define PI 3.14159265359
 //////////////////////////////////////////////////////////////////////////
 // AGymnastGameCharacter
 
@@ -74,7 +74,7 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 		currentController->GetInputMotionState(CurrentTilt, CurrentRotationRate, CurrentGravity, CurrentAccel);
 
 		double CurrentAngle = CurrentTilt.Z * TiltRotateAmount;
-		double CurrentAngleY = (FMath::Cos((CurrentTilt.X - StartingSteerX)*M_PI*2) + FMath::Sin((CurrentTilt.X - StartingSteerX)*M_PI * 2)) * TiltSteerAmount;
+		double CurrentAngleY = (FMath::Cos((CurrentTilt.X - StartingSteerX)*PI*2) + FMath::Sin((CurrentTilt.X - StartingSteerX)*PI * 2)) * TiltSteerAmount;
 
 		if (bNeedsNewStartingLocation)
 		{
