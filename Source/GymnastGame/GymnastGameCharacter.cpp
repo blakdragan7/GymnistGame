@@ -97,6 +97,9 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 			CanAddUpperImpulse = false;
 		}
 
+		FVector CurrentActorLocation = GetActorLocation();
+		DrawDebugDirectionalArrow(GetWorld(), CurrentActorLocation, CurrentActorLocation + (FVector(0, -CurrentAngleY,0).GetSafeNormal() * 100.0),
+			100.f, FColor::Red, false, -1.f, (uint8)'\000', 10.f);
 		SteerFlight(CurrentAngleY);
 		GEngine->AddOnScreenDebugMessage(0, 0.5f, FColor::Red, FString::Printf(TEXT("Angle %f %f"), CurrentAngle,CurrentAngleY));
 		
