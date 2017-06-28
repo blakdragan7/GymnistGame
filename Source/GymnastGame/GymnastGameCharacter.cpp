@@ -74,7 +74,7 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 		currentController->GetInputMotionState(CurrentTilt, CurrentRotationRate, CurrentGravity, CurrentAccel);
 
 		double CurrentAngle = CurrentTilt.Z * TiltRotateAmount;
-		double CurrentAngleY = (FMath::Cos((CurrentTilt.X - StartingSteerX)*PI*2) + FMath::Sin((CurrentTilt.X - StartingSteerX)*PI * 2)) * TiltSteerAmount;
+		double CurrentAngleY = (FMath::Cos((CurrentTilt.X - StartingSteerX)*PI) + FMath::Sin((CurrentTilt.X - StartingSteerX)*PI)) * TiltSteerAmount;
 
 		if (bNeedsNewStartingLocation)
 		{
