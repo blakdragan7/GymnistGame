@@ -13,7 +13,8 @@ class AGymnastGameCharacter : public ACharacter
 private:
 	APlayerController* currentController;
 
-	float StartingSteer;
+	float StartingSteerX;
+	float StartingSteerY;
 	float StartingAngle;
 
 	bool CanAddLowerImpulse;
