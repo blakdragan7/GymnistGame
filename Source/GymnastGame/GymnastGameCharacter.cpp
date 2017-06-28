@@ -11,7 +11,7 @@
 #include "FlightCharacterMovementComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "Engine.h"
-#define PI 3.14159265359
+
 //////////////////////////////////////////////////////////////////////////
 // AGymnastGameCharacter
 
