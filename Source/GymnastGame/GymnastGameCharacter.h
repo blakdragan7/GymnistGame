@@ -13,6 +13,7 @@ class AGymnastGameCharacter : public ACharacter
 private:
 	APlayerController* currentController;
 
+	float StartingSteer;
 	float StartingAngle;
 
 	bool CanAddLowerImpulse;
@@ -44,7 +45,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Swing Control")
 	float TiltSteerAmount;
 
-	/** Resets Starting Angle for Swing Calcuation. */
+	/** Resets Starting Angle and Starting Tilt for Swing and Flight Calcuations. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Swing Control")
 	bool bNeedsNewStartingLocation;
 

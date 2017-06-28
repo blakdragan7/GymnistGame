@@ -73,21 +73,23 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 		currentController->GetInputMotionState(CurrentTilt, CurrentRotationRate, CurrentGravity, CurrentAccel);
 
 		double CurrentAngle = CurrentTilt.Z * TiltRotateAmount;
-		double CurrentAngleY = CurrentTilt.Y * TiltSteerAmount;
+		double CurrentAngleY = (CurrentTilt.Y - StartingSteer) * TiltSteerAmount;
 
 		if (bNeedsNewStartingLocation)
 		{
 			bNeedsNewStartingLocation = false;
+			StartingSteer = CurrentTilt.Y;
 			StartingAngle = CurrentAngle;
 			return;
 		}
-
+		
 		if (CurrentAngle - StartingAngle < -TiltAngleTresh && CanAddLowerImpulse)
 		{
 			AddImpulseToSwing(1);
 			CanAddLowerImpulse = false;
 			CanAddUpperImpulse = true;
 		}
+
 		if (CurrentAngle - StartingAngle > TiltAngleTresh && CanAddUpperImpulse)
 		{
 			AddImpulseToSwing(-1);

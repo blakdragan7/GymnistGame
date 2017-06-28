@@ -21,6 +21,9 @@ void UFlightCharacterMovementComponent::PhysCustom(float deltaTime, int32 Iterat
 	GEngine->AddOnScreenDebugMessage(3, 0.5f, FColor::Red, FSteerForce.ToString());
 	// Move Charecter
 	FHitResult Hit;
+	FVector CurrentActorLocation = GetActorLocation();
+	DrawDebugDirectionalArrow(GetWorld(), CurrentActorLocation, CurrentActorLocation + (FSteerForce.GetSafeNormal() * 100.0),
+		100.f, FColor::Red, false, -1.f, (uint8)'\000', 10.f);
 	bool success = SafeMoveUpdatedComponent((Velocity+FSteerForce)*deltaTime, UpdatedComponent->GetComponentRotation(), true, Hit);
 	if (!success)
 	{
