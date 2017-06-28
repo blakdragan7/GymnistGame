@@ -74,7 +74,9 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 		currentController->GetInputMotionState(CurrentTilt, CurrentRotationRate, CurrentGravity, CurrentAccel);
 
 		double CurrentAngle = CurrentTilt.Z * TiltRotateAmount;
-		double CurrentAngleY = (FMath::Cos((CurrentTilt.X - StartingSteerX)*PI) + FMath::Sin((CurrentTilt.Y - StartingSteerY)*PI)) * TiltSteerAmount;
+		double CurrentTiltX = (CurrentTilt.X - StartingSteerX)*PI;
+		double CurrentTiltY = (CurrentTilt.Y - StartingSteerY)*PI;
+		double CurrentAngleY = (FMath::Cos(CurrentTiltX) + FMath::Sin(CurrentTiltY)) * TiltSteerAmount;
 
 		if (bNeedsNewStartingLocation)
 		{
@@ -103,7 +105,8 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 		DrawDebugDirectionalArrow(GetWorld(), CurrentActorLocation, CurrentActorLocation + (FVector(0, -CurrentAngleY,0).GetSafeNormal() * 100.0),
 			100.f, FColor::Red, false, -1.f, (uint8)'\000', 10.f);
 		SteerFlight(CurrentAngleY);
-		GEngine->AddOnScreenDebugMessage(0, 0.5f, FColor::Red, FString::Printf(TEXT("Angle %f %f"), CurrentAngle,CurrentAngleY));
+		GEngine->AddOnScreenDebugMessage(0, 0.5f, FColor::Red, FString::Printf(TEXT("Angle %f %f"), CurrentAngle, CurrentAngleY));
+		GEngine->AddOnScreenDebugMessage(1, 0.5f, FColor::Red, FString::Printf(TEXT("tilt %f %f"), CurrentTiltX, CurrentTiltY));
 		
 	}
 }
