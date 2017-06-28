@@ -78,7 +78,7 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 		double CurrentTiltY = (CurrentTilt.Y - StartingSteerY);
 		double CurrentCosTiltX = FMath::Cos(CurrentTilt.X - StartingSteerX);
 		double CurrentSinTiltY = FMath::Sin(CurrentTilt.Y - StartingSteerY);
-		double CurrentAngleY = (FMath::Cos(CurrentTiltX*PI) + FMath::Sin(CurrentTiltY*PI)) * TiltSteerAmount;
+		double CurrentAngleY = /*(FMath::Cos(CurrentTiltX*PI) + FMath::Sin(CurrentTiltY*PI))*/CurrentTiltX * TiltSteerAmount;
 
 		if (bNeedsNewStartingLocation)
 		{
