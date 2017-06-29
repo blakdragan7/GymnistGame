@@ -20,6 +20,8 @@ private:
 	bool CanAddLowerImpulse;
 	bool CanAddUpperImpulse;
 
+	FRotator StartingBoomRotation;
+
 	FVector StartingTilt;
 	FVector StartingGravity;
 	/* Velocity Used to Launch Player after Swinging. Calculated Via lastPosition - currentPosition */

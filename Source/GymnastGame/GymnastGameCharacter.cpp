@@ -115,13 +115,23 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 		GEngine->AddOnScreenDebugMessage(0, 0.5f, FColor::Red, FString::Printf(TEXT("Angle %f %f"), CurrentAngle, CurrentAngleY));
 		//GEngine->AddOnScreenDebugMessage(1, 0.5f, FColor::Red, FString::Printf(TEXT("tilt %f %f"), CurrentTiltX*180, CurrentTiltY*180));
 		//GEngine->AddOnScreenDebugMessage(2, 0.5f, FColor::Red, FString::Printf(TEXT("cos tilt %f %f"), CurrentCosTiltX, CurrentSinTiltY));
-
+		
+		if (UCharacterMovementComponent* component = Cast<UCharacterMovementComponent>(GetMovementComponent()))
+		{
+			if (component->MovementMode == MOVE_Custom)
+			{
+				FRotator currentRotation = StartingBoomRotation;
+				currentRotation.Pitch += CurrentActorLocation.Z / 10.0;
+				CameraBoom->SetRelativeRotation(currentRotation);
+			}
+		}
 	}
 }
 void AGymnastGameCharacter::BeginPlay()
 {
 	ACharacter::BeginPlay();
 	currentController = Cast<APlayerController>(GetController());
+	StartingBoomRotation = CameraBoom->GetRelativeTransform().Rotator();
 }
 //////////////////////////////////////////////////////////////////////////
 // Input
