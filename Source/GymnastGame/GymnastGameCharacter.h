@@ -62,6 +62,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Swing Control")
 	float TiltAngleTresh;
 
+	/* Called when charecter reaches peak height from laucnch. ex. starting to fall instead of going up.*/
+	UFUNCTION(BlueprintImplementableEvent, Category = "Swing Physics")
+	void ReachedPeakHeight();
+
 	/* Called when charecter is launched From a Swing */
 	UFUNCTION(BlueprintImplementableEvent, Category = "Swing Physics")
 	void WasLaunched();

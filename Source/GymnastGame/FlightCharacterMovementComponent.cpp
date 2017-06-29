@@ -5,8 +5,24 @@
 #include "Engine.h"
 void UFlightCharacterMovementComponent::PhysCustom(float deltaTime, int32 Iterations)
 {
+	AGymnastGameCharacter* character = Cast<AGymnastGameCharacter>(GetCharacterOwner());
+
+	FVector CurrentGravity = CustomGravity;
+	if (Velocity.Z <= 0)
+	{
+		if (!HasReachedPeekHeight)
+		{
+			HasReachedPeekHeight = true;
+			//if(character)character->ReachedPeakHeight();
+		}
+		CurrentGravity *= GravityFallScale;
+	}
+	else
+	{
+		HasReachedPeekHeight = false;
+	}
 	// Simluate Simple Gravity With Drag
-	Velocity += CustomGravity * deltaTime;
+	Velocity += CurrentGravity * deltaTime;
 	// Apply Custom Forces
 	Velocity += ConstCustomForce*deltaTime;
 	if (customForceToggle)
@@ -17,18 +33,15 @@ void UFlightCharacterMovementComponent::PhysCustom(float deltaTime, int32 Iterat
 	}
 	// Apply Drag
 	Velocity *= CustomDrag;
-	
-	GEngine->AddOnScreenDebugMessage(3, 0.5f, FColor::Red, FSteerForce.ToString());
 	// Move Charecter
 	FHitResult Hit;
 	FVector CurrentActorLocation = GetActorLocation();
-//	DrawDebugDirectionalArrow(GetWorld(), CurrentActorLocation, CurrentActorLocation + (FSteerForce.GetSafeNormal() * 100.0),
-//		100.f, FColor::Red, false, -1.f, (uint8)'\000', 10.f);
 	bool success = SafeMoveUpdatedComponent((Velocity+FSteerForce)*deltaTime, UpdatedComponent->GetComponentRotation(), true, Hit);
 	if (!success)
 	{
+		HasReachedPeekHeight = false;
 		SetMovementMode(MOVE_Walking);
-		if (AGymnastGameCharacter* character = Cast<AGymnastGameCharacter>(GetCharacterOwner()))
+		if (character)
 		{
 			character->HasLanded();
 		}
@@ -42,6 +55,8 @@ UFlightCharacterMovementComponent::UFlightCharacterMovementComponent()
 	ConstCustomForce = FVector(0,0,0);
 	InstantaneousCustomForce = FVector(0,0,0);
 	customForceToggle = false;
+	HasReachedPeekHeight = false;
+	GravityFallScale = 0.7;
 }
 
 void UFlightCharacterMovementComponent::ApplyInstantaneousForce(const FVector newCustomFoce)

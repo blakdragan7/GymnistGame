@@ -20,6 +20,7 @@ private:
 
 	FVector InstantaneousCustomForce;
 	bool customForceToggle;
+	bool HasReachedPeekHeight;
 
 protected:
 	virtual void PhysCustom(float deltaTime, int32 Iterations) override;
@@ -28,6 +29,9 @@ public:
 	UFlightCharacterMovementComponent();
 
 public:
+	/** Scale for Gravity After Peek Height is hit. Used to simulate Opening umbrella*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flight Physics")
+	float GravityFallScale;
 	/* Custom Gravity Vector That is Applied Every Tick */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flight Physics")
 	FVector CustomGravity;
