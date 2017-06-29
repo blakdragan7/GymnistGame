@@ -108,7 +108,7 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 			100.f, FColor::Red, false, -1.f, (uint8)'\000', 10.f);
 		SteerFlight(CurrentAngleY);
 		//GEngine->AddOnScreenDebugMessage(3, 0.5f, FColor::Red, CurrentRotationRate.ToString());
-		//GEngine->AddOnScreenDebugMessage(0, 0.5f, FColor::Red, FString::Printf(TEXT("Angle %f %f"), CurrentAngle, CurrentAngleY));
+		GEngine->AddOnScreenDebugMessage(0, 0.5f, FColor::Red, FString::Printf(TEXT("Angle %f %f"), CurrentAngle, CurrentAngleY));
 		//GEngine->AddOnScreenDebugMessage(1, 0.5f, FColor::Red, FString::Printf(TEXT("tilt %f %f"), CurrentTiltX*180, CurrentTiltY*180));
 		//GEngine->AddOnScreenDebugMessage(2, 0.5f, FColor::Red, FString::Printf(TEXT("cos tilt %f %f"), CurrentCosTiltX, CurrentSinTiltY));
 
