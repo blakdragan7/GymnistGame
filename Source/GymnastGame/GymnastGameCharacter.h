@@ -80,6 +80,7 @@ public:
 
 protected:
 	/* Steers Flight Based On Tilt */
+	UFUNCTION(BlueprintCallable, Category = "Swing Physics")
 	void SteerFlight(float tilt);
 
 	/** Resets HMD orientation in VR. */

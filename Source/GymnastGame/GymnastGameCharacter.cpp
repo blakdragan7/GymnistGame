@@ -83,6 +83,8 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 		if (bNeedsNewStartingLocation)
 		{
 			bNeedsNewStartingLocation = false;
+			CanAddLowerImpulse = true;
+			CanAddUpperImpulse = true;
 			StartingSteerX = CurrentTilt.X;
 			StartingSteerY = CurrentTilt.Y;
 			StartingAngle = CurrentAngle;
@@ -106,7 +108,9 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 		FVector CurrentActorLocation = GetActorLocation();
 		DrawDebugDirectionalArrow(GetWorld(), CurrentActorLocation, CurrentActorLocation + (FVector(0, -CurrentAngleY,0).GetSafeNormal() * 100.0),
 			100.f, FColor::Red, false, -1.f, (uint8)'\000', 10.f);
+#if PLATFORM_IOS
 		SteerFlight(CurrentAngleY);
+#endif
 		//GEngine->AddOnScreenDebugMessage(3, 0.5f, FColor::Red, CurrentRotationRate.ToString());
 		GEngine->AddOnScreenDebugMessage(0, 0.5f, FColor::Red, FString::Printf(TEXT("Angle %f %f"), CurrentAngle, CurrentAngleY));
 		//GEngine->AddOnScreenDebugMessage(1, 0.5f, FColor::Red, FString::Printf(TEXT("tilt %f %f"), CurrentTiltX*180, CurrentTiltY*180));
