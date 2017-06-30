@@ -41,6 +41,9 @@ public:
 	void Tick(float DeltaTime)override;
 	void BeginPlay()override;
 
+	/** Devisor for Camera rotation vs actor position*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flight Settings")
+	float PositionCameraDivesor;
 	/** Amount to Multiply the X Tilt amount. Affects @TiltAngleTresh */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Swing Control")
 	float TiltRotateAmount;
