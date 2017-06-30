@@ -126,6 +126,10 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 				currentRotation.Pitch -= CurrentActorLocation.Z / PositionCameraDivesor;
 				CameraBoom->SetRelativeRotation(currentRotation);
 			}
+			else
+			{
+				CameraBoom->SetRelativeRotation(StartingBoomRotation);
+			}
 		}
 	}
 }
