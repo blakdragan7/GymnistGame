@@ -11,5 +11,8 @@ AGymnastGameGameMode::AGymnastGameGameMode()
 	if (PlayerPawnBPClass.Class != NULL)
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
+#if PLATFORM_IOS
+		FPlatformMisc::ControlScreensaver(FPlatformMisc::EScreenSaverAction::Disable);
+#endif
 	}
 }
