@@ -121,7 +121,7 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 			if (component->MovementMode == MOVE_Custom)
 			{
 				FRotator currentRotation = StartingBoomRotation;
-				currentRotation.Pitch += CurrentActorLocation.Z / 10.0;
+				currentRotation.Pitch -= CurrentActorLocation.Z / 10.0;
 				CameraBoom->SetRelativeRotation(currentRotation);
 			}
 		}
