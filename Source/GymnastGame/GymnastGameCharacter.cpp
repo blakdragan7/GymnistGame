@@ -91,7 +91,7 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 			return;
 		}
 		
-		if (CurrentAngle - StartingAngle < -TiltAngleTresh && CanAddLowerImpulse)
+		if (CurrentAngle - StartingAngle <= 0 && CanAddLowerImpulse)
 		{
 			AddImpulseToSwing(1);
 			CanAddLowerImpulse = false;
