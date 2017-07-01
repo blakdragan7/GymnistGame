@@ -73,6 +73,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Swing Control")
 	float TiltAngleTresh;
 
+	/* Simply passes through current tilt values after calculations.*/
+	UFUNCTION(BlueprintImplementableEvent, Category = "Swing Physics")
+	void PassCurrentTiltValues(FVector tilts);
+
 	/* Called when charecter reaches peak height from laucnch. ex. starting to fall instead of going up.*/
 	UFUNCTION(BlueprintImplementableEvent, Category = "Swing Physics")
 	void ReachedPeakHeight();

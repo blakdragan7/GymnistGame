@@ -109,6 +109,8 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 			CanAddUpperImpulse = false;
 		}
 
+		PassCurrentTiltValues(FVector(CurrentTiltX, CurrentTiltY, (CurrentAngle - StartingAngle) / TiltRotateAmount));
+
 		FVector CurrentActorLocation = GetActorLocation();
 		DrawDebugDirectionalArrow(GetWorld(), CurrentActorLocation, CurrentActorLocation + (FVector(0, -CurrentAngleY,0).GetSafeNormal() * 100.0),
 			100.f, FColor::Red, false, -1.f, (uint8)'\000', 10.f);
