@@ -55,7 +55,7 @@ public:
 	float TiltSteerAmount;
 
 	/** Resets Starting Angle and Starting Tilt for Swing and Flight Calcuations. */
-	UPROPERTY(VisibleAnywhere, Blueprint ReadWrite, Category = "Swing Control")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Swing Control")
 	bool bNeedsNewStartingLocation;
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
