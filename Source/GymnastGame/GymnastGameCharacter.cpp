@@ -22,7 +22,8 @@ AGymnastGameCharacter::AGymnastGameCharacter(const FObjectInitializer& ObjectIni
 
 	currentController = 0;
 
-	PositionCameraDivesor = 20.0;
+	CameraRotationPositionRange = 200.0;
+	CameraRotationRotationRange = 45.0;
 
 	CanAddLowerImpulse = true;
 	CanAddUpperImpulse = true;
@@ -123,7 +124,8 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 			if (component->MovementMode == MOVE_Custom)
 			{
 				FRotator currentRotation = StartingBoomRotation;
-				currentRotation.Pitch -= CurrentActorLocation.Z / PositionCameraDivesor;
+				float alpha = (CurrentActorLocation.Z / CameraRotationPositionRange);
+				currentRotation.Pitch -= FMath::Sign(alpha) * FMath::Lerp<float,float>(FMath::Abs(alpha),0, CameraRotationRotationRange) ;
 				CameraBoom->SetRelativeRotation(currentRotation);
 			}
 			else

@@ -41,9 +41,12 @@ public:
 	void Tick(float DeltaTime)override;
 	void BeginPlay()override;
 
-	/** Devisor for Camera rotation vs actor position*/
+	/** Determins The range for the Z position of the Character for which the camera will rotate*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flight Settings")
-	float PositionCameraDivesor;
+	float CameraRotationPositionRange;
+	/** The Range of Rotation The Camera Will Take. ex 40 degrees means the camera will pitch + 40 to - 40 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flight Settings")
+	float CameraRotationRotationRange;
 	/** Amount to Multiply the X Tilt amount. Affects @TiltAngleTresh */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Swing Control")
 	float TiltRotateAmount;
@@ -52,7 +55,7 @@ public:
 	float TiltSteerAmount;
 
 	/** Resets Starting Angle and Starting Tilt for Swing and Flight Calcuations. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Swing Control")
+	UPROPERTY(VisibleAnywhere, Blueprint ReadWrite, Category = "Swing Control")
 	bool bNeedsNewStartingLocation;
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
