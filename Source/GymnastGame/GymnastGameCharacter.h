@@ -41,6 +41,9 @@ public:
 	void Tick(float DeltaTime)override;
 	void BeginPlay()override;
 
+	/** Determins The Offset CameraRotationPositionRange uses*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flight Settings")
+	float CameraRotationPositionOffset;
 	/** Determins The range for the Z position of the Character for which the camera will rotate*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flight Settings")
 	float CameraRotationPositionRange;

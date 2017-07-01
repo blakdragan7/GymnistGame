@@ -22,6 +22,7 @@ AGymnastGameCharacter::AGymnastGameCharacter(const FObjectInitializer& ObjectIni
 
 	currentController = 0;
 
+	CameraRotationPositionOffset = 100.0;
 	CameraRotationPositionRange = 200.0;
 	CameraRotationRotationRange = 45.0;
 
@@ -124,9 +125,10 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 			if (component->MovementMode == MOVE_Custom)
 			{
 				FRotator currentRotation = StartingBoomRotation;
-				float alpha = (CurrentActorLocation.Z / CameraRotationPositionRange);
-				float clampedAlpha = FMath::Clamp<float>(alpha, 0, 1);
-				currentRotation.Pitch += FMath::Sign(alpha) * FMath::Lerp<float,float>(FMath::Abs(clampedAlpha),0, CameraRotationRotationRange) ;
+				float alpha = ((CameraRotationPositionOffset - CurrentActorLocation.Z) / CameraRotationPositionRange);
+				alpha = FMath::Clamp<float>(alpha, -1, 1);
+				GEngine->AddOnScreenDebugMessage(6, 0.5f, FColor::Red, FString::Printf(TEXT("%f"), alpha));
+				currentRotation.Pitch -= FMath::Lerp<float,float>(alpha,0, CameraRotationRotationRange);
 				CameraBoom->SetRelativeRotation(currentRotation);
 			}
 			else
