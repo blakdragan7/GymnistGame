@@ -125,8 +125,8 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 			{
 				FRotator currentRotation = StartingBoomRotation;
 				float alpha = (CurrentActorLocation.Z / CameraRotationPositionRange);
-				alpha = FMath::Clamp<float>(alpha, 0, 1);
-				currentRotation.Pitch += FMath::Sign(alpha) * FMath::Lerp<float,float>(FMath::Abs(alpha),0, CameraRotationRotationRange) ;
+				float clampedAlpha = FMath::Clamp<float>(alpha, 0, 1);
+				currentRotation.Pitch += FMath::Sign(alpha) * FMath::Lerp<float,float>(FMath::Abs(clampedAlpha),0, CameraRotationRotationRange) ;
 				CameraBoom->SetRelativeRotation(currentRotation);
 			}
 			else
