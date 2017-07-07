@@ -52,7 +52,7 @@ public:
 	void SetSwingRadiusComponent(USceneComponent* newSwingRadiusComponent);
 
 	UFUNCTION(BlueprintCallable, Category = "Swing Settings")
-	void SetEffectedActor(AActor* newEffectedActor);
+	void SetEffectedActor(AActor* newEffectedActor, FVector ImpuleLocation);
 
 	UFUNCTION(BlueprintCallable, Category = "Swing Settings")
 	void SetPhysicsComponent(UPrimitiveComponent* newPhysicsComponent);

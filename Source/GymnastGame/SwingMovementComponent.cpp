@@ -59,11 +59,15 @@ void USwingMovementComponent::SetSwingRadiusComponent(USceneComponent* newRadius
 	USwingRadiusComponent = newRadius;
 }
 
-void USwingMovementComponent::SetEffectedActor(AActor* EffectedActor)
+void USwingMovementComponent::SetEffectedActor(AActor* EffectedActor,FVector ImpuleLocation)
 {
 	check(EffectedActor);
 	this->AEffectedActor = EffectedActor;
 	LastActorLocationIsValid = false;
+	if (PhysicsComponent)
+	{
+		PhysicsComponent->AddImpulseAtLocation(EffectedActor->GetVelocity()*25, ImpuleLocation);
+	}
 }
 
 void USwingMovementComponent::SetPhysicsComponent(UPrimitiveComponent * newPhysicsComponent)
