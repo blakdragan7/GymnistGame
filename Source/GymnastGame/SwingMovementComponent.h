@@ -43,6 +43,7 @@ private:
 	float fCurrentDotProduct;
 
 public:
+	USwingMovementComponent();
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 
 	UFUNCTION(BlueprintCallable, Category = "Swing Settings")
@@ -60,6 +61,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Swing Settings")
 	void RemoveEffectedActor();
 
+	/* used to incrase inertia from actor connecting to swing */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Swing Settings")
+	float EnertiaMultiplier;
 	/* If True then Swing Radius Component will be used for updates and if false Swing Radius will be used instead */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Swing Settings")
 	uint32 bUseSwingComponent:1;

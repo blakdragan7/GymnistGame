@@ -5,6 +5,11 @@
 #include "Runtime/Engine/Classes/Kismet/KismetMathLibrary.h"
 #include "Runtime/Engine/Classes/Components/StaticMeshComponent.h"
 
+USwingMovementComponent::USwingMovementComponent()
+{
+	EnertiaMultiplier = 25;
+}
+
 void USwingMovementComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
 {
 	UMovementComponent::TickComponent(DeltaTime,TickType,ThisTickFunction);
@@ -66,7 +71,7 @@ void USwingMovementComponent::SetEffectedActor(AActor* EffectedActor,FVector Imp
 	LastActorLocationIsValid = false;
 	if (PhysicsComponent)
 	{
-		PhysicsComponent->AddImpulseAtLocation(EffectedActor->GetVelocity()*25, ImpuleLocation);
+		PhysicsComponent->AddImpulseAtLocation(EffectedActor->GetVelocity()*EnertiaMultiplier, ImpuleLocation);
 	}
 }
 
