@@ -1,7 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "SwingMovementComponent.h"
 #include "DrawDebugHelpers.h"
+#include "Runtime/Engine/Classes/Engine/World.h"
 #include "GameFramework/Actor.h"
+#include "GymnastGameGameMode.h"
 #include "Runtime/Engine/Classes/Kismet/KismetMathLibrary.h"
 #include "Runtime/Engine/Classes/Components/StaticMeshComponent.h"
 
@@ -46,7 +48,7 @@ void USwingMovementComponent::TickComponent(float DeltaTime, enum ELevelTick Tic
 		FVector AngVel(TangentForce, TangentForce, TangentForce);
 		PhysicsComponent->SetPhysicsAngularVelocity(AngVel,true);
         
-		if (PhysicsComponent->GetComponentVelocity().IsNearlyZero())bIsZeroVelocity = true;
+		if (PhysicsComponent->GetComponentVelocity().IsNearlyZero(5))bIsZeroVelocity = true;
         else bIsZeroVelocity = false;
 	}
 }
@@ -84,4 +86,59 @@ void USwingMovementComponent::RemoveEffectedActor()
 {
 	AEffectedActor = 0;
 	LastActorLocationIsValid = false;
+}
+
+bool USwingMovementComponent::GetAbsolutePitch(float& OutPitch)
+{
+	static const FVector ZUpVector = FVector(0, 0, 1);
+	static const FVector YUpVector = FVector(1, 0, 0);
+	if (IsValid(PhysicsComponent))
+	{
+		FVector CurrentUp = PhysicsComponent->GetUpVector();
+		FRotator rotation = PhysicsComponent->GetComponentRotation();
+		FVector ZCross = FVector::CrossProduct(CurrentUp, ZUpVector);
+		FVector YCross = FVector::CrossProduct(CurrentUp, YUpVector);
+		if (ZCross.Y > 0 && YCross.Y < 0)OutPitch = (90 - rotation.Pitch) + 90;
+		else if (ZCross.Y < 0 && YCross.Y < 0)OutPitch = (-90 - rotation.Pitch) - 90;
+		else OutPitch = rotation.Pitch;
+		return true;
+	}
+
+	return false;
+}
+
+bool USwingMovementComponent::GetCurrentLaunchVelocity(FVector & launchVelocity)
+{
+	if (IsValid(AEffectedActor))
+	{
+		launchVelocity = Velocity;
+		return true;
+	}
+	return false;
+}
+
+bool USwingMovementComponent::GetCurrentLaunchStrength(float& strength)
+{
+	if (IsValid(AEffectedActor))
+	{
+		strength = Velocity.Size();
+		return true;
+	}
+	return false;
+}
+
+bool USwingMovementComponent::GetLaunchVelocity(FVector& launchVelocity,float scale)
+{
+	//if (IsValid(AEffectedActor))
+	{
+		AGymnastGameGameMode * GameMode = GetWorld()->GetAuthGameMode<AGymnastGameGameMode>();
+		float maxLaunch = GameMode->MaxLaunchVelocity;
+		float LaunchStrength = (Velocity * scale).Size();
+		if (LaunchStrength > maxLaunch)
+			launchVelocity = Velocity.GetSafeNormal()*maxLaunch;
+		else
+			launchVelocity = Velocity * scale;
+		return true;
+	}
+	return false;
 }

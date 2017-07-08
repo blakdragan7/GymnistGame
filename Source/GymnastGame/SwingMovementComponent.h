@@ -60,6 +60,18 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Swing Settings")
 	void RemoveEffectedActor();
+	/* Get pitch in [-180, 180] degrees relative to starting pitch */
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Swing Settings")
+	bool GetAbsolutePitch(float& OutPitch);
+	/* Get Velocity For Effected Actor if laucnhed right now */
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Swing Physics")
+	bool GetCurrentLaunchVelocity(FVector& launchVelocity);
+	/* Get Magnitude of current swing launch velocity */
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Swing Physics")
+	bool GetCurrentLaunchStrength(float& launchStrength);
+	/* Gets Launch Velocity clampped at MaxLaunchVelocity from GameMode */
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Swing Physics")
+	bool GetLaunchVelocity(FVector &launchVelocity, float scale = 1.0);
 
 	/* used to incrase inertia from actor connecting to swing */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Swing Settings")

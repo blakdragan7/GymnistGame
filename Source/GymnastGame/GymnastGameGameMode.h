@@ -13,6 +13,9 @@ class AGymnastGameGameMode : public AGameModeBase
 
 public:
 	AGymnastGameGameMode();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Launch Settings")
+	float MaxLaunchVelocity;
 };
 
 
