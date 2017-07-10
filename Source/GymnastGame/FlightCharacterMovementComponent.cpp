@@ -16,7 +16,6 @@ void UFlightCharacterMovementComponent::PhysCustom(float deltaTime, int32 Iterat
 			if(character)character->ReachedPeakHeight();
 			//Velocity.X *= GravityFallScale;
 		}
-		CurrentGravity *= GravityFallScale;
 	}
 	else
 	{
@@ -34,6 +33,7 @@ void UFlightCharacterMovementComponent::PhysCustom(float deltaTime, int32 Iterat
 	}
 	// Apply Drag
 	Velocity *= CustomDrag;
+	if(HasReachedPeekHeight)Velocity.Z = FMath::Min(Velocity.Z, GravityFallLimit);
 	// Move Charecter
 	FHitResult Hit;
 	FVector CurrentActorLocation = GetActorLocation();
@@ -57,7 +57,7 @@ UFlightCharacterMovementComponent::UFlightCharacterMovementComponent()
 	InstantaneousCustomForce = FVector(0,0,0);
 	customForceToggle = false;
 	HasReachedPeekHeight = false;
-	GravityFallScale = 0.7;
+	GravityFallLimit = -200;
 }
 
 void UFlightCharacterMovementComponent::ApplyInstantaneousForce(const FVector newCustomFoce)

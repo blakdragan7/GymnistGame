@@ -31,7 +31,7 @@ public:
 public:
 	/** Scale for Gravity After Peek Height is hit. Used to simulate Opening umbrella*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flight Physics")
-	float GravityFallScale;
+	float GravityFallLimit;
 	/* Custom Gravity Vector That is Applied Every Tick */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flight Physics")
 	FVector CustomGravity;
