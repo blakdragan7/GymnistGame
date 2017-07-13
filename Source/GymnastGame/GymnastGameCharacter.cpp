@@ -94,20 +94,6 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 			StartingAngle = CurrentAngle;
 			return;
 		}
-		
-		if (CurrentAngle - StartingAngle <= 0 && CanAddLowerImpulse)
-		{
-			AddImpulseToSwing(1);
-			CanAddLowerImpulse = false;
-			CanAddUpperImpulse = true;
-		}
-
-		if (CurrentAngle - StartingAngle > TiltAngleTresh && CanAddUpperImpulse)
-		{
-			AddImpulseToSwing(-1);
-			CanAddLowerImpulse = true;
-			CanAddUpperImpulse = false;
-		}
 
 		PassCurrentTiltValues(FVector(CurrentTiltX, CurrentTiltY, (CurrentAngle - StartingAngle) / TiltRotateAmount));
 
@@ -120,7 +106,7 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 		//GEngine->AddOnScreenDebugMessage(3, 0.5f, FColor::Red, CurrentRotationRate.ToString());
 		GEngine->AddOnScreenDebugMessage(0, 0.5f, FColor::Red, FString::Printf(TEXT("Angle %f %f"), CurrentAngle, CurrentAngleY));
 		
-		if (UCharacterMovementComponent* component = Cast<UCharacterMovementComponent>(GetMovementComponent()))
+		if (UFlightCharacterMovementComponent* component = Cast<UFlightCharacterMovementComponent>(GetMovementComponent()))
 		{
 			if (component->MovementMode == MOVE_Custom)
 			{
@@ -130,10 +116,12 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 				GEngine->AddOnScreenDebugMessage(6, 0.5f, FColor::Red, FString::Printf(TEXT("%f"), alpha));
 				currentRotation.Pitch -= FMath::Lerp<float,float>(alpha,0, CameraRotationRotationRange);
 				CameraBoom->SetRelativeRotation(currentRotation);
+				ControlFlight(component,FVector(CurrentTiltX, CurrentTiltY,CurrentAngle));
 			}
 			else
 			{
 				CameraBoom->SetRelativeRotation(StartingBoomRotation);
+				ControlSwing(CurrentAngle);
 			}
 		}
 	}
@@ -143,6 +131,26 @@ void AGymnastGameCharacter::BeginPlay()
 	ACharacter::BeginPlay();
 	currentController = Cast<APlayerController>(GetController());
 	StartingBoomRotation = CameraBoom->GetRelativeTransform().Rotator();
+}
+void AGymnastGameCharacter::ControlSwing(float CurrentAngle)
+{
+	if (CurrentAngle - StartingAngle <= 0 && CanAddLowerImpulse)
+	{
+		AddImpulseToSwing(1);
+		CanAddLowerImpulse = false;
+		CanAddUpperImpulse = true;
+	}
+
+	if (CurrentAngle - StartingAngle > TiltAngleTresh && CanAddUpperImpulse)
+	{
+		AddImpulseToSwing(-1);
+		CanAddLowerImpulse = true;
+		CanAddUpperImpulse = false;
+	}
+}
+void AGymnastGameCharacter::ControlFlight(UFlightCharacterMovementComponent* component,FVector tilt)
+{
+	component->PitchSteer = sin(tilt.Z);
 }
 //////////////////////////////////////////////////////////////////////////
 // Input

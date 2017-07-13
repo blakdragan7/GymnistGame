@@ -29,6 +29,9 @@ public:
 	UFlightCharacterMovementComponent();
 
 public:
+	/** Controls Forward and Vertical motion through pitch*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flight Physics")
+	float PitchSteer;
 	/** Scale for Gravity After Peek Height is hit. Used to simulate Opening umbrella*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flight Physics")
 	float GravityFallLimit;
@@ -47,4 +50,6 @@ public:
 
 	UFUNCTION()
 	void SetSteerVelocity(FVector steerVelocity);
+
+	
 };

@@ -6,7 +6,7 @@
 void UFlightCharacterMovementComponent::PhysCustom(float deltaTime, int32 Iterations)
 {
 	AGymnastGameCharacter* character = Cast<AGymnastGameCharacter>(GetCharacterOwner());
-
+	FVector totalForces;
 	FVector CurrentGravity = CustomGravity;
 	if (Velocity.Z <= 0)
 	{
@@ -22,15 +22,21 @@ void UFlightCharacterMovementComponent::PhysCustom(float deltaTime, int32 Iterat
 		HasReachedPeekHeight = false;
 	}
 	// Simluate Simple Gravity With Drag
-	Velocity += CurrentGravity * deltaTime;
+	totalForces += CurrentGravity;
 	// Apply Custom Forces
-	Velocity += ConstCustomForce*deltaTime;
+	totalForces += ConstCustomForce;
 	if (customForceToggle)
 	{
-		Velocity += InstantaneousCustomForce*deltaTime;
+		totalForces += InstantaneousCustomForce;
 		InstantaneousCustomForce = FVector();
 		customForceToggle = false;
 	}
+
+	totalForces.X *= PitchSteer;
+	totalForces.Z *= PitchSteer;
+
+	Velocity += totalForces * deltaTime;
+
 	// Apply Drag
 	Velocity *= CustomDrag;
 	if(HasReachedPeekHeight)Velocity.Z = FMath::Min(Velocity.Z, GravityFallLimit);
@@ -58,6 +64,7 @@ UFlightCharacterMovementComponent::UFlightCharacterMovementComponent()
 	customForceToggle = false;
 	HasReachedPeekHeight = false;
 	GravityFallLimit = -200;
+	PitchSteer = 1.0;
 }
 
 void UFlightCharacterMovementComponent::ApplyInstantaneousForce(const FVector newCustomFoce)

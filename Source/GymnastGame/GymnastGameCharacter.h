@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "GymnastGameCharacter.generated.h"
 
+class UFlightCharacterMovementComponent;
 UCLASS(config=Game)
 class AGymnastGameCharacter : public ACharacter
 {
@@ -34,6 +35,10 @@ private:
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
+private:
+	void ControlSwing(float CurrentAngle);
+	void ControlFlight(UFlightCharacterMovementComponent* component,FVector tilt);
+
 public:
 	AGymnastGameCharacter(const FObjectInitializer& ObjectInitializer);
 
