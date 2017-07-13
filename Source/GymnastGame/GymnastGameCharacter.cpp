@@ -101,11 +101,9 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 		FVector CurrentActorLocation = GetActorLocation();
 		DrawDebugDirectionalArrow(GetWorld(), CurrentActorLocation, CurrentActorLocation + (FVector(0, -CurrentAngleY,0).GetSafeNormal() * 100.0),
 			100.f, FColor::Red, false, -1.f, (uint8)'\000', 10.f);
-#if PLATFORM_IOS
-		SteerFlight(CurrentAngleY);
-#endif
+
 		//GEngine->AddOnScreenDebugMessage(3, 0.5f, FColor::Red, CurrentRotationRate.ToString());
-		GEngine->AddOnScreenDebugMessage(0, 0.5f, FColor::Red, FString::Printf(TEXT("Angle %f %f"), CurrentAngle, CurrentAngleY));
+		//GEngine->AddOnScreenDebugMessage(0, 0.5f, FColor::Red, FString::Printf(TEXT("Angle %f %f"), CurrentAngle, CurrentAngleY));
 		
 		if (UFlightCharacterMovementComponent* component = Cast<UFlightCharacterMovementComponent>(GetMovementComponent()))
 		{
@@ -119,6 +117,7 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 				CameraBoom->SetRelativeRotation(currentRotation);
 #if PLATFORM_IOS
 				ControlFlight(component,FVector(CurrentTiltX, CurrentTiltY,CurrentAngle));
+				SteerFlight(CurrentAngleY);
 #endif
 				FRotator CurrentRotation = StartingActorRotation;
 				CurrentRotation.Pitch += CurrentAngle;

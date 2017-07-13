@@ -7,7 +7,7 @@ void UFlightCharacterMovementComponent::PhysCustom(float deltaTime, int32 Iterat
 {
 	AGymnastGameCharacter* character = Cast<AGymnastGameCharacter>(GetCharacterOwner());
 	FVector totalForces;
-	FVector CurrentGravity = CustomGravity;
+
 	if (Velocity.Z <= 0)
 	{
 		if (!HasReachedPeekHeight)
@@ -21,7 +21,7 @@ void UFlightCharacterMovementComponent::PhysCustom(float deltaTime, int32 Iterat
 		HasReachedPeekHeight = false;
 	}
 	// Simluate Simple Gravity With Drag
-	totalForces += CurrentGravity;
+	totalForces += CustomGravity;
 	// Apply Custom Forces
 	totalForces += ConstCustomForce;
 	if (customForceToggle)
@@ -35,6 +35,9 @@ void UFlightCharacterMovementComponent::PhysCustom(float deltaTime, int32 Iterat
 	totalForces.Z *= PitchSteer;
 
 	Velocity += totalForces * deltaTime;
+	GEngine->AddOnScreenDebugMessage(1, 0.5f, FColor::Red, FSteerForce.ToString());
+	GEngine->AddOnScreenDebugMessage(2, 0.5f, FColor::Red, FString::Printf(TEXT("PitchSteer %f"), PitchSteer));
+	GEngine->AddOnScreenDebugMessage(3, 0.5f, FColor::Red, totalForces.ToString());
 
 	// Apply Drag
 	Velocity *= CustomDrag;
