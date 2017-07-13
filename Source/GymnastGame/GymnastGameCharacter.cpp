@@ -159,6 +159,14 @@ void AGymnastGameCharacter::ControlFlight(UFlightCharacterMovementComponent* com
 {
 	component->PitchSteer = sin(tilt.Z);
 }
+void AGymnastGameCharacter::OnMovementModeChanged(EMovementMode PrevMovementMode, uint8 PreviousCustomMode)
+{
+	ACharacter::OnMovementModeChanged(PrevMovementMode, PreviousCustomMode);
+	if (PrevMovementMode == MOVE_None && GetReplicatedMovementMode() == MOVE_Custom)
+	{
+		WasLaunched();
+	}
+}
 //////////////////////////////////////////////////////////////////////////
 // Input
 

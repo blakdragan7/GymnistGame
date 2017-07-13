@@ -42,6 +42,7 @@ private:
 	void ControlSwing(float CurrentAngle);
 	void ControlFlight(UFlightCharacterMovementComponent* component,FVector tilt);
 
+	virtual void OnMovementModeChanged(EMovementMode PrevMovementMode, uint8 PreviousCustomMode = 0)override;
 public:
 	AGymnastGameCharacter(const FObjectInitializer& ObjectInitializer);
 
