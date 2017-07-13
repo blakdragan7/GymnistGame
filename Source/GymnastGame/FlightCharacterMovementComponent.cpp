@@ -31,8 +31,8 @@ void UFlightCharacterMovementComponent::PhysCustom(float deltaTime, int32 Iterat
 		customForceToggle = false;
 	}
 
-	totalForces.X *= PitchSteer;
-	totalForces.Z *= PitchSteer;
+	totalForces.X += PitchSteer * PitchSteerXAmount;
+	totalForces.Z += PitchSteer * PitchSteerZAmount;
 
 	Velocity += totalForces * deltaTime;
 	GEngine->AddOnScreenDebugMessage(1, 0.5f, FColor::Red, FSteerForce.ToString());
@@ -41,7 +41,7 @@ void UFlightCharacterMovementComponent::PhysCustom(float deltaTime, int32 Iterat
 
 	// Apply Drag
 	Velocity *= CustomDrag;
-	if(HasReachedPeekHeight)Velocity.Z = FMath::Min(Velocity.Z, (GravityFallLimit*PitchSteer));
+	if(HasReachedPeekHeight)Velocity.Z = FMath::Min(Velocity.Z, (GravityFallLimit+ PitchSteer * PitchSteerZAmount));
 	// Move Charecter
 	FHitResult Hit;
 	FVector CurrentActorLocation = GetActorLocation();
@@ -66,7 +66,9 @@ UFlightCharacterMovementComponent::UFlightCharacterMovementComponent()
 	customForceToggle = false;
 	HasReachedPeekHeight = false;
 	GravityFallLimit = -200;
-	PitchSteer = 1.0;
+	PitchSteer = 0.0;
+	PitchSteerZAmount = 1000;
+	PitchSteerXAmount = 1000;
 }
 
 void UFlightCharacterMovementComponent::ApplyInstantaneousForce(const FVector newCustomFoce)

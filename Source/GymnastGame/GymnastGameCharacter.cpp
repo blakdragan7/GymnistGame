@@ -157,7 +157,7 @@ void AGymnastGameCharacter::ControlSwing(float CurrentAngle)
 }
 void AGymnastGameCharacter::ControlFlight(UFlightCharacterMovementComponent* component,FVector tilt)
 {
-	component->PitchSteer = sin(tilt.Z);
+	component->PitchSteer = FMath::Cos(tilt.Z);
 }
 void AGymnastGameCharacter::OnMovementModeChanged(EMovementMode PrevMovementMode, uint8 PreviousCustomMode)
 {
