@@ -81,8 +81,6 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 		double CurrentAngle = CurrentTilt.Z * TiltRotateAmount;
 		double CurrentTiltX = (CurrentTilt.X - StartingSteerX);
 		double CurrentTiltY = (CurrentTilt.Y - StartingSteerY);
-		double CurrentCosTiltX = FMath::Cos(CurrentTilt.X - StartingSteerX);
-		double CurrentSinTiltY = FMath::Sin(CurrentTilt.Y - StartingSteerY);
 		double CurrentAngleY = CurrentTiltX * TiltSteerAmount;
 
 		if (bNeedsNewStartingLocation)
@@ -116,12 +114,12 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 				currentRotation.Pitch -= FMath::Lerp<float,float>(alpha,0, CameraRotationRotationRange);
 				CameraBoom->SetRelativeRotation(currentRotation);
 #if PLATFORM_IOS
-				ControlFlight(component,FVector(CurrentTiltX, CurrentTiltY,CurrentAngle));
+				ControlFlight(component,FVector(CurrentTiltX, CurrentTiltY, CurrentAngle - StartingAngle));
 				SteerFlight(CurrentAngleY);
 #endif
 				FRotator CurrentRotation = StartingActorRotation;
-				CurrentRotation.Pitch += CurrentAngle;
-				CurrentRotation.Roll += CurrentTiltX*90;
+				CurrentRotation.Pitch += CurrentAngle - StartingAngle;
+				CurrentRotation.Roll -= CurrentTiltX*90;
 				SetActorRotation(CurrentRotation);
 			}
 			else
