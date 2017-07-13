@@ -41,7 +41,7 @@ void UFlightCharacterMovementComponent::PhysCustom(float deltaTime, int32 Iterat
 
 	// Apply Drag
 	Velocity *= CustomDrag;
-	if(HasReachedPeekHeight)Velocity.Z = FMath::Min(Velocity.Z, (GravityFallLimit + (PitchSteer * PitchSteerZAmount)));
+	if(HasReachedPeekHeight)Velocity.Z = FMath::Max(Velocity.Z, (GravityFallLimit + (PitchSteer * PitchSteerZAmount)));
 	// Move Charecter
 	FHitResult Hit;
 	FVector CurrentActorLocation = GetActorLocation();
