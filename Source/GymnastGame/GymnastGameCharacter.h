@@ -62,6 +62,12 @@ public:
 	/** Amount to Multiply the X Tilt amount. Affects @TiltAngleTresh */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Swing Control")
 	float TiltRotateAmount;
+	/** Amount Of Tilt needed in degrees for pitch */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Swing Control")
+	float PitchSteerTiltLimit;
+	/** Amount of rotation applied to pitch from tilt while steering */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Swing Control")
+	float PitchSteerRotateLimit;
 	/** Amount to Steer Actor after being launched from the Y tilt of the mobile device.  */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Swing Control")
 	float TiltSteerAmount;

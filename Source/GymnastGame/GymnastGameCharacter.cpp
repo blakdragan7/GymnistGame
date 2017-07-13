@@ -27,6 +27,9 @@ AGymnastGameCharacter::AGymnastGameCharacter(const FObjectInitializer& ObjectIni
 	CameraRotationPositionRange = 200.0;
 	CameraRotationRotationRange = 45.0;
 
+	PitchSteerTiltLimit = 40.0;
+	PitchSteerRotateLimit = 80.0;
+
 	CanAddLowerImpulse = true;
 	CanAddUpperImpulse = true;
 
@@ -78,11 +81,12 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 
 		currentController->GetInputMotionState(CurrentTilt, CurrentRotationRate, CurrentGravity, CurrentAccel);
 
-		double CurrentAngle = CurrentTilt.Z * TiltRotateAmount;
+		double CurrentTiltZ = (CurrentTilt.Z - StartingAngle);
+		double CurrentAngle = CurrentTiltZ * TiltRotateAmount;
 		double CurrentTiltX = (CurrentTilt.X - StartingSteerX);
 		double CurrentTiltY = (CurrentTilt.Y - StartingSteerY);
 		double CurrentAngleY = CurrentTiltX * TiltSteerAmount;
-
+		
 		if (bNeedsNewStartingLocation)
 		{
 			bNeedsNewStartingLocation = false;
@@ -90,11 +94,11 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 			CanAddUpperImpulse = true;
 			StartingSteerX = CurrentTilt.X;
 			StartingSteerY = CurrentTilt.Y;
-			StartingAngle = CurrentAngle;
+			StartingAngle = CurrentTilt.Z;
 			return;
 		}
 
-		PassCurrentTiltValues(FVector(CurrentTiltX, CurrentTiltY, (CurrentAngle - StartingAngle) / TiltRotateAmount));
+		PassCurrentTiltValues(FVector(CurrentTiltX, CurrentTiltY, CurrentAngle / TiltRotateAmount));
 
 		FVector CurrentActorLocation = GetActorLocation();
 		DrawDebugDirectionalArrow(GetWorld(), CurrentActorLocation, CurrentActorLocation + (FVector(0, -CurrentAngleY,0).GetSafeNormal() * 100.0),
@@ -114,11 +118,11 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 				currentRotation.Pitch -= FMath::Lerp<float,float>(alpha,0, CameraRotationRotationRange);
 				CameraBoom->SetRelativeRotation(currentRotation);
 #if PLATFORM_IOS
-				ControlFlight(component,FVector(CurrentTiltX, CurrentTiltY, CurrentAngle - StartingAngle));
+				ControlFlight(component,FVector(CurrentTiltX, CurrentTiltY, CurrentTiltZ));
 				SteerFlight(CurrentAngleY);
 #endif
 				FRotator CurrentRotation = StartingActorRotation;
-				CurrentRotation.Pitch += CurrentAngle - StartingAngle;
+				CurrentRotation.Pitch += CurrentTiltZ*PitchSteerRotateLimit;
 				CurrentRotation.Roll -= CurrentTiltX*90;
 				SetActorRotation(CurrentRotation);
 			}
@@ -139,14 +143,14 @@ void AGymnastGameCharacter::BeginPlay()
 }
 void AGymnastGameCharacter::ControlSwing(float CurrentAngle)
 {
-	if (CurrentAngle - StartingAngle <= 0 && CanAddLowerImpulse)
+	if (CurrentAngle  <= 0 && CanAddLowerImpulse)
 	{
 		AddImpulseToSwing(1);
 		CanAddLowerImpulse = false;
 		CanAddUpperImpulse = true;
 	}
 
-	if (CurrentAngle - StartingAngle > TiltAngleTresh && CanAddUpperImpulse)
+	if (CurrentAngle > TiltAngleTresh && CanAddUpperImpulse)
 	{
 		AddImpulseToSwing(-1);
 		CanAddLowerImpulse = true;
@@ -155,7 +159,9 @@ void AGymnastGameCharacter::ControlSwing(float CurrentAngle)
 }
 void AGymnastGameCharacter::ControlFlight(UFlightCharacterMovementComponent* component,FVector tilt)
 {
-	component->PitchSteer = FMath::Cos(tilt.Z);
+	float angle = tilt.Z * PitchSteerTiltLimit;
+	angle = FMath::Clamp<float>(angle,0,360);
+	component->PitchSteer = FMath::Cos(FMath::DegreesToRadians(angle));
 }
 void AGymnastGameCharacter::OnMovementModeChanged(EMovementMode PrevMovementMode, uint8 PreviousCustomMode)
 {
