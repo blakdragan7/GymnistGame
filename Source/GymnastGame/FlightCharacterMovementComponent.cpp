@@ -14,7 +14,6 @@ void UFlightCharacterMovementComponent::PhysCustom(float deltaTime, int32 Iterat
 		{
 			HasReachedPeekHeight = true;
 			if(character)character->ReachedPeakHeight();
-			//Velocity.X *= GravityFallScale;
 		}
 	}
 	else

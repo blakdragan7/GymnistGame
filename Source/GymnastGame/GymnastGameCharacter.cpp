@@ -2,6 +2,7 @@
 
 #include "GymnastGameCharacter.h"
 #include "Kismet/HeadMountedDisplayFunctionLibrary.h"
+#include "Runtime/Engine/Classes/Kismet/KismetMathLibrary.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
@@ -82,7 +83,7 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 		double CurrentTiltY = (CurrentTilt.Y - StartingSteerY);
 		double CurrentCosTiltX = FMath::Cos(CurrentTilt.X - StartingSteerX);
 		double CurrentSinTiltY = FMath::Sin(CurrentTilt.Y - StartingSteerY);
-		double CurrentAngleY = /*(FMath::Cos(CurrentTiltX*PI) + FMath::Sin(CurrentTiltY*PI))*/CurrentTiltX * TiltSteerAmount;
+		double CurrentAngleY = CurrentTiltX * TiltSteerAmount;
 
 		if (bNeedsNewStartingLocation)
 		{
@@ -116,7 +117,13 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 				GEngine->AddOnScreenDebugMessage(6, 0.5f, FColor::Red, FString::Printf(TEXT("%f"), alpha));
 				currentRotation.Pitch -= FMath::Lerp<float,float>(alpha,0, CameraRotationRotationRange);
 				CameraBoom->SetRelativeRotation(currentRotation);
+#if PLATFORM_IOS
 				ControlFlight(component,FVector(CurrentTiltX, CurrentTiltY,CurrentAngle));
+#endif
+				FRotator CurrentRotation = StartingActorRotation;
+				CurrentRotation.Pitch += CurrentAngle;
+				CurrentRotation.Roll += CurrentTiltX*90;
+				SetActorRotation(CurrentRotation);
 			}
 			else
 			{
@@ -131,6 +138,7 @@ void AGymnastGameCharacter::BeginPlay()
 	ACharacter::BeginPlay();
 	currentController = Cast<APlayerController>(GetController());
 	StartingBoomRotation = CameraBoom->GetRelativeTransform().Rotator();
+	StartingActorRotation = GetActorRotation();
 }
 void AGymnastGameCharacter::ControlSwing(float CurrentAngle)
 {
@@ -181,6 +189,17 @@ void AGymnastGameCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AGymnastGameCharacter::OnResetVR);
 }
 
+void AGymnastGameCharacter::WasLaunched_Implementation()
+{
+	StartingLaunchRotation = GetActorRotation();
+	bNeedsNewStartingLocation = true;
+}
+
+void AGymnastGameCharacter::HasLanded_Implementation()
+{
+	SetActorRotation(StartingActorRotation);
+	bNeedsNewStartingLocation = true;
+}
 
 void AGymnastGameCharacter::SteerFlight(float tilt)
 {

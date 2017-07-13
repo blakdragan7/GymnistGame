@@ -14,6 +14,7 @@ class AGymnastGameCharacter : public ACharacter
 private:
 	APlayerController* currentController;
 
+
 	float StartingSteerX;
 	float StartingSteerY;
 	float StartingAngle;
@@ -21,7 +22,9 @@ private:
 	bool CanAddLowerImpulse;
 	bool CanAddUpperImpulse;
 
+	FRotator StartingLaunchRotation;
 	FRotator StartingBoomRotation;
+	FRotator StartingActorRotation;
 
 	FVector StartingTilt;
 	FVector StartingGravity;
@@ -87,11 +90,11 @@ public:
 	void ReachedPeakHeight();
 
 	/* Called when charecter is launched From a Swing */
-	UFUNCTION(BlueprintImplementableEvent, Category = "Swing Physics")
+	UFUNCTION(BlueprintNativeEvent, Category = "Swing Physics")
 	void WasLaunched();
 	
 	/* Called when a chareter lands on the ground after a launch */
-	UFUNCTION(BlueprintImplementableEvent, Category = "Swing Physics")
+	UFUNCTION(BlueprintNativeEvent, Category = "Swing Physics")
 	void HasLanded();
 
 	/* Called when Force should be added to the swing actor to simulate pendulam mechanics  */
