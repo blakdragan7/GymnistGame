@@ -31,17 +31,19 @@ void UFlightCharacterMovementComponent::PhysCustom(float deltaTime, int32 Iterat
 		customForceToggle = false;
 	}
 
+	float pitchZSteerAdjust = FMath::Clamp<float>((PitchSteer * PitchSteerZAmount), -PitchSteerZAmount, 0);
+
 	totalForces.X -= PitchSteer * PitchSteerXAmount;
-	totalForces.Z += FMath::Clamp<float>((PitchSteer * PitchSteerZAmount),-PitchSteerZAmount,0);
+	totalForces.Z += pitchZSteerAdjust;
 
 	Velocity += totalForces * deltaTime;
 	GEngine->AddOnScreenDebugMessage(1, 0.5f, FColor::Red, FString::Printf(TEXT("PitchSteer %f"), PitchSteer));
-	GEngine->AddOnScreenDebugMessage(2, 0.5f, FColor::Red, FString::Printf(TEXT("PitchSteer %f"), PitchSteer * PitchSteerXAmount));
-	GEngine->AddOnScreenDebugMessage(3, 0.5f, FColor::Red, FString::Printf(TEXT("PitchSteer %f"), PitchSteer * PitchSteerZAmount));
+	GEngine->AddOnScreenDebugMessage(2, 0.5f, FColor::Red, FString::Printf(TEXT("PitchSteerX %f"), PitchSteer * PitchSteerXAmount));
+	GEngine->AddOnScreenDebugMessage(3, 0.5f, FColor::Red, FString::Printf(TEXT("PitchSteerY %f"), PitchSteer * PitchSteerZAmount));
 
 	// Apply Drag
 	Velocity *= CustomDrag;
-	if(HasReachedPeekHeight)Velocity.Z = FMath::Max(Velocity.Z, (GravityFallLimit + (PitchSteer * PitchSteerZAmount)));
+	if(HasReachedPeekHeight)Velocity.Z = FMath::Max(Velocity.Z, (GravityFallLimit + pitchZSteerAdjust));
 	
 	Velocity.X = FMath::Clamp<float>(Velocity.X,0, TNumericLimits< float >::Max());
 	// Move Charecter
