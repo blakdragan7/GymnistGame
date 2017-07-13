@@ -31,7 +31,7 @@ void UFlightCharacterMovementComponent::PhysCustom(float deltaTime, int32 Iterat
 		customForceToggle = false;
 	}
 
-	totalForces.X += PitchSteer * PitchSteerXAmount;
+	totalForces.X -= PitchSteer * PitchSteerXAmount;
 	totalForces.Z += PitchSteer * PitchSteerZAmount;
 
 	Velocity += totalForces * deltaTime;

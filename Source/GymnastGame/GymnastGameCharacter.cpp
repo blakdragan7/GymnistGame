@@ -160,9 +160,9 @@ void AGymnastGameCharacter::ControlSwing(float CurrentAngle)
 void AGymnastGameCharacter::ControlFlight(UFlightCharacterMovementComponent* component,FVector tilt)
 {
 	float angle = tilt.Z * PitchSteerTiltLimit;
-	angle = FMath::Clamp<float>(angle,0,180);
+	angle = FMath::Clamp<float>(angle,-180,180);
 	GEngine->AddOnScreenDebugMessage(0, 0.5f, FColor::Red, FString::Printf(TEXT("tilt.Z %f"), tilt.Z));
-	component->PitchSteer = FMath::Cos(FMath::DegreesToRadians(angle));
+	component->PitchSteer = FMath::Sin(FMath::DegreesToRadians(angle));
 }
 void AGymnastGameCharacter::OnMovementModeChanged(EMovementMode PrevMovementMode, uint8 PreviousCustomMode)
 {
