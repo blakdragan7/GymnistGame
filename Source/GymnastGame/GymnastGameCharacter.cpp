@@ -163,7 +163,7 @@ void AGymnastGameCharacter::OnMovementModeChanged(EMovementMode PrevMovementMode
 {
 	GEngine->AddOnScreenDebugMessage(5, 1.0f, FColor::Red, TEXT("OnMovementModeChanged !"));
 	ACharacter::OnMovementModeChanged(PrevMovementMode, PreviousCustomMode);
-	if (PrevMovementMode == MOVE_None && GetReplicatedMovementMode() == MOVE_Custom)
+	if (PrevMovementMode == MOVE_None && GetCharacterMovement()->MovementMode == MOVE_Custom)
 	{
 		WasLaunched();
 		GEngine->AddOnScreenDebugMessage(5, 1.0f, FColor::Red, TEXT("Was Launched !"));
