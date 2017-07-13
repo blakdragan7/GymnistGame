@@ -33,7 +33,7 @@ void UFlightCharacterMovementComponent::PhysCustom(float deltaTime, int32 Iterat
 
 	float pitchZSteerAdjust = FMath::Clamp<float>((PitchSteer * PitchSteerZAmount), -PitchSteerZAmount, 0);
 
-	totalForces.X -= PitchSteer * PitchSteerXAmount;
+	totalForces.X -= FMath::Clamp<float>((PitchSteer * PitchSteerXAmount), -PitchSteerXAmount, 0);
 	totalForces.Z += pitchZSteerAdjust;
 
 	Velocity += totalForces * deltaTime;
