@@ -35,13 +35,13 @@ void UFlightCharacterMovementComponent::PhysCustom(float deltaTime, int32 Iterat
 	totalForces.Z += PitchSteer * PitchSteerZAmount;
 
 	Velocity += totalForces * deltaTime;
-	GEngine->AddOnScreenDebugMessage(1, 0.5f, FColor::Red, FSteerForce.ToString());
-	GEngine->AddOnScreenDebugMessage(2, 0.5f, FColor::Red, FString::Printf(TEXT("PitchSteer %f"), PitchSteer));
-	GEngine->AddOnScreenDebugMessage(3, 0.5f, FColor::Red, totalForces.ToString());
+	GEngine->AddOnScreenDebugMessage(1, 0.5f, FColor::Red, FString::Printf(TEXT("PitchSteer %f"), PitchSteer));
+	GEngine->AddOnScreenDebugMessage(2, 0.5f, FColor::Red, FString::Printf(TEXT("PitchSteer %f"), PitchSteer * PitchSteerXAmount));
+	GEngine->AddOnScreenDebugMessage(3, 0.5f, FColor::Red, FString::Printf(TEXT("PitchSteer %f"), PitchSteer * PitchSteerZAmount));
 
 	// Apply Drag
 	Velocity *= CustomDrag;
-	if(HasReachedPeekHeight)Velocity.Z = FMath::Min(Velocity.Z, (GravityFallLimit+ PitchSteer * PitchSteerZAmount));
+	if(HasReachedPeekHeight)Velocity.Z = FMath::Min(Velocity.Z, (GravityFallLimit + (PitchSteer * PitchSteerZAmount)));
 	// Move Charecter
 	FHitResult Hit;
 	FVector CurrentActorLocation = GetActorLocation();
