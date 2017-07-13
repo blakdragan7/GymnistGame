@@ -81,12 +81,12 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 
 		currentController->GetInputMotionState(CurrentTilt, CurrentRotationRate, CurrentGravity, CurrentAccel);
 
-		double CurrentTiltZ = (CurrentTilt.Z - StartingAngle);
-		double CurrentAngle = CurrentTiltZ * TiltRotateAmount;
 		double CurrentTiltX = (CurrentTilt.X - StartingSteerX);
 		double CurrentTiltY = (CurrentTilt.Y - StartingSteerY);
+		double CurrentTiltZ = (CurrentTilt.Z - StartingSteerZ);
 		double CurrentAngleY = CurrentTiltX * TiltSteerAmount;
-		
+		double CurrentAngleZ = CurrentTiltZ * TiltRotateAmount;
+
 		if (bNeedsNewStartingLocation)
 		{
 			bNeedsNewStartingLocation = false;
@@ -94,11 +94,11 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 			CanAddUpperImpulse = true;
 			StartingSteerX = CurrentTilt.X;
 			StartingSteerY = CurrentTilt.Y;
-			StartingAngle = CurrentTilt.Z;
+			StartingSteerZ = CurrentTilt.Z;
 			return;
 		}
 
-		PassCurrentTiltValues(FVector(CurrentTiltX, CurrentTiltY, CurrentAngle / TiltRotateAmount));
+		PassCurrentTiltValues(FVector(CurrentTiltX, CurrentTiltY, CurrentTiltZ));
 
 		FVector CurrentActorLocation = GetActorLocation();
 		DrawDebugDirectionalArrow(GetWorld(), CurrentActorLocation, CurrentActorLocation + (FVector(0, -CurrentAngleY,0).GetSafeNormal() * 100.0),
@@ -129,7 +129,7 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 			else
 			{
 				CameraBoom->SetRelativeRotation(StartingBoomRotation);
-				ControlSwing(CurrentAngle);
+				ControlSwing(CurrentAngleZ);
 			}
 		}
 	}
@@ -160,8 +160,8 @@ void AGymnastGameCharacter::ControlSwing(float CurrentAngle)
 void AGymnastGameCharacter::ControlFlight(UFlightCharacterMovementComponent* component,FVector tilt)
 {
 	float angle = tilt.Z * PitchSteerTiltLimit;
-	angle = FMath::Clamp<float>(angle,0,360);
-	GEngine->AddOnScreenDebugMessage(0, 0.5f, FColor::Red, FString::Printf(TEXT("PitchSteerAngle %f"), angle));
+	angle = FMath::Clamp<float>(angle,0,180);
+	GEngine->AddOnScreenDebugMessage(0, 0.5f, FColor::Red, FString::Printf(TEXT("tilt.Z %f"), tilt.Z));
 	component->PitchSteer = FMath::Cos(FMath::DegreesToRadians(angle));
 }
 void AGymnastGameCharacter::OnMovementModeChanged(EMovementMode PrevMovementMode, uint8 PreviousCustomMode)

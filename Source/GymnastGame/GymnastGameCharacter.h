@@ -17,7 +17,7 @@ private:
 
 	float StartingSteerX;
 	float StartingSteerY;
-	float StartingAngle;
+	float StartingSteerZ;
 
 	bool CanAddLowerImpulse;
 	bool CanAddUpperImpulse;
