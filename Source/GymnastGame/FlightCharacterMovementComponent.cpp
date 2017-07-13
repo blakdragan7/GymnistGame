@@ -32,7 +32,7 @@ void UFlightCharacterMovementComponent::PhysCustom(float deltaTime, int32 Iterat
 	}
 
 	totalForces.X -= PitchSteer * PitchSteerXAmount;
-	totalForces.Z += PitchSteer * PitchSteerZAmount;
+	totalForces.Z += FMath::Clamp<float>((PitchSteer * PitchSteerZAmount),-PitchSteerZAmount,0);
 
 	Velocity += totalForces * deltaTime;
 	GEngine->AddOnScreenDebugMessage(1, 0.5f, FColor::Red, FString::Printf(TEXT("PitchSteer %f"), PitchSteer));
