@@ -161,10 +161,12 @@ void AGymnastGameCharacter::ControlFlight(UFlightCharacterMovementComponent* com
 }
 void AGymnastGameCharacter::OnMovementModeChanged(EMovementMode PrevMovementMode, uint8 PreviousCustomMode)
 {
+	GEngine->AddOnScreenDebugMessage(5, 0.5f, FColor::Red, TEXT("OnMovementModeChanged !"));
 	ACharacter::OnMovementModeChanged(PrevMovementMode, PreviousCustomMode);
 	if (PrevMovementMode == MOVE_None && GetReplicatedMovementMode() == MOVE_Custom)
 	{
 		WasLaunched();
+		GEngine->AddOnScreenDebugMessage(5, 0.5f, FColor::Red, TEXT("Was Launched !"));
 	}
 }
 //////////////////////////////////////////////////////////////////////////
