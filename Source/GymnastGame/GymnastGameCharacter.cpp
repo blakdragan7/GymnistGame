@@ -27,7 +27,7 @@ AGymnastGameCharacter::AGymnastGameCharacter(const FObjectInitializer& ObjectIni
 	CameraRotationPositionRange = 200.0;
 	CameraRotationRotationRange = 45.0;
 
-	PitchSteerTiltLimit = 40.0;
+	PitchSteerTiltLimit = 90;
 	PitchSteerRotateLimit = 80.0;
 
 	CanAddLowerImpulse = true;
@@ -161,6 +161,7 @@ void AGymnastGameCharacter::ControlFlight(UFlightCharacterMovementComponent* com
 {
 	float angle = tilt.Z * PitchSteerTiltLimit;
 	angle = FMath::Clamp<float>(angle,0,360);
+	GEngine->AddOnScreenDebugMessage(0, 0.5f, FColor::Red, FString::Printf(TEXT("PitchSteerAngle %f"), angle));
 	component->PitchSteer = FMath::Cos(FMath::DegreesToRadians(angle));
 }
 void AGymnastGameCharacter::OnMovementModeChanged(EMovementMode PrevMovementMode, uint8 PreviousCustomMode)
