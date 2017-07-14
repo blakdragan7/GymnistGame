@@ -32,14 +32,15 @@ void UFlightCharacterMovementComponent::PhysCustom(float deltaTime, int32 Iterat
 	}
 
 	float pitchZSteerAdjust = FMath::Clamp<float>((PitchSteer * PitchSteerZAmount), -PitchSteerZAmount, 0);
+	float pitchXSteerAdjust = FMath::Clamp<float>((PitchSteer * PitchSteerXAmount), -PitchSteerXAmount, 0);
 
 	totalForces.X -= FMath::Clamp<float>((PitchSteer * PitchSteerXAmount), -PitchSteerXAmount, 0);
 	totalForces.Z += pitchZSteerAdjust;
 
 	Velocity += totalForces * deltaTime;
 	GEngine->AddOnScreenDebugMessage(1, 0.5f, FColor::Red, FString::Printf(TEXT("PitchSteer %f"), PitchSteer));
-	GEngine->AddOnScreenDebugMessage(2, 0.5f, FColor::Red, FString::Printf(TEXT("PitchSteerX %f"), PitchSteer * PitchSteerXAmount));
-	GEngine->AddOnScreenDebugMessage(3, 0.5f, FColor::Red, FString::Printf(TEXT("PitchSteerY %f"), PitchSteer * PitchSteerZAmount));
+	GEngine->AddOnScreenDebugMessage(2, 0.5f, FColor::Red, FString::Printf(TEXT("PitchSteerX %f"), pitchXSteerAdjust));
+	GEngine->AddOnScreenDebugMessage(3, 0.5f, FColor::Red, FString::Printf(TEXT("PitchSteerZ %f"), pitchZSteerAdjust));
 
 	// Apply Drag
 	Velocity *= CustomDrag;
