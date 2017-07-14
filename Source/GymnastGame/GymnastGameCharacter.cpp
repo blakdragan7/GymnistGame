@@ -81,6 +81,7 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 
 		currentController->GetInputMotionState(CurrentTilt, CurrentRotationRate, CurrentGravity, CurrentAccel);
 
+		GEngine->AddOnScreenDebugMessage(6, 0.5f, FColor::Red,CurrentRotationRate.ToString());
 		double CurrentTiltX = (CurrentTilt.X - StartingSteerX);
 		double CurrentTiltY = (CurrentTilt.Y - StartingSteerY);
 		double CurrentTiltZ = (CurrentTilt.Z - StartingSteerZ);
@@ -114,7 +115,6 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 				FRotator currentRotation = StartingBoomRotation;
 				float alpha = ((CameraRotationPositionOffset - CurrentActorLocation.Z) / CameraRotationPositionRange);
 				alpha = FMath::Clamp<float>(alpha, -1, 1);
-				GEngine->AddOnScreenDebugMessage(6, 0.5f, FColor::Red, FString::Printf(TEXT("%f"), alpha));
 				currentRotation.Pitch -= FMath::Lerp<float,float>(alpha,0, CameraRotationRotationRange);
 				CameraBoom->SetRelativeRotation(currentRotation);
 #if PLATFORM_IOS
