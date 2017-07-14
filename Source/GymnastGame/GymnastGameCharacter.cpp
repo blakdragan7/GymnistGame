@@ -30,6 +30,8 @@ AGymnastGameCharacter::AGymnastGameCharacter(const FObjectInitializer& ObjectIni
 	PitchSteerTiltLimit = 90;
 	PitchSteerRotateLimit = 80.0;
 
+	InputAxisPadding = 0.2;
+
 	CanAddLowerImpulse = true;
 	CanAddUpperImpulse = true;
 
@@ -80,6 +82,14 @@ void AGymnastGameCharacter::Tick(float DeltaTime)
 		FVector CurrentRotationRate;
 
 		currentController->GetInputMotionState(CurrentTilt, CurrentRotationRate, CurrentGravity, CurrentAccel);
+
+		float currentYRotation = CurrentRotationRate.Y;
+		if (currentYRotation <= InputAxisPadding && currentYRotation >= -InputAxisPadding)
+		{
+			currentYRotation = 0;
+		}
+
+		SwingMovementAxis(currentYRotation);
 
 		GEngine->AddOnScreenDebugMessage(6, 0.5f, FColor::Red,CurrentRotationRate.ToString());
 		double CurrentTiltX = (CurrentTilt.X - StartingSteerX);

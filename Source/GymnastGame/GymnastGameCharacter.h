@@ -72,6 +72,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Swing Control")
 	float TiltSteerAmount;
 
+	/** Amount to 'Padd' the swing input axis. essentually clamp the -InputAxisPadding - InputAxisPadding to 0  */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Swing Control")
+	float InputAxisPadding;
+
 	/** Resets Starting Angle and Starting Tilt for Swing and Flight Calcuations. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Swing Control")
 	bool bNeedsNewStartingLocation;
@@ -107,6 +111,9 @@ public:
 	/* Called when Force should be added to the swing actor to simulate pendulam mechanics  */
 	UFUNCTION(BlueprintImplementableEvent, Category = "Swing Control")
 	void AddImpulseToSwing(int32 direction);
+	/* Called constantly like an input axis. Amount is the strength of current rotation  */
+	UFUNCTION(BlueprintImplementableEvent, Category = "Swing Control")
+	void SwingMovementAxis(float amount);
 
 protected:
 	/* Steers Flight Based On Tilt */
