@@ -6,6 +6,7 @@
 
 AGymnastGameGameMode::AGymnastGameGameMode()
 {
+	GameScore = 0.0;
 	MaxLaunchVelocity = 500.0f;
 	// set default pawn class to our Blueprinted character
 	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/ThirdPersonCPP/Blueprints/ThirdPersonCharacter"));
@@ -16,4 +17,16 @@ AGymnastGameGameMode::AGymnastGameGameMode()
 		FPlatformMisc::ControlScreensaver(FPlatformMisc::EScreenSaverAction::Disable);
 #endif
 	}
+}
+
+void AGymnastGameGameMode::AddScore(AActor * actor, float score)
+{
+	GameScore += score;
+	GEngine->AddOnScreenDebugMessage(10, 0.5f, FColor::Red, FString::Printf(TEXT("New Score %f"), GameScore));
+}
+
+void AGymnastGameGameMode::SetScore(AActor * actor, float score)
+{
+	GameScore = score;
+	GEngine->AddOnScreenDebugMessage(10, 0.5f, FColor::Red, FString::Printf(TEXT("New Score %f"), GameScore));
 }

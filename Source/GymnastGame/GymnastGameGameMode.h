@@ -13,9 +13,18 @@ class AGymnastGameGameMode : public AGameModeBase
 
 public:
 	AGymnastGameGameMode();
-
+	/* Max Launch Velocity allowed for Level */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Launch Settings")
 	float MaxLaunchVelocity;
+	/* Score Value for Current Level */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Global")
+	float GameScore;
+	/* Used to add Score to GameScore */
+	UFUNCTION(BlueprintCallable, Category = "Global")
+	void AddScore(AActor* actor, float score);
+	/* Used to Set Score to GameScore */
+	UFUNCTION(BlueprintCallable, Category = "Global")
+	void SetScore(AActor* actor, float score);
 };
 
 
