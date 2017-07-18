@@ -18,13 +18,13 @@ public:
 	float MaxLaunchVelocity;
 	/* Score Value for Current Level */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Global")
-	float GameScore;
+	int32 GameScore;
 	/* Used to add Score to GameScore */
 	UFUNCTION(BlueprintCallable, Category = "Global")
-	void AddScore(AActor* actor, float score);
+	void AddScore(AActor* actor, int32 score);
 	/* Used to Set Score to GameScore */
 	UFUNCTION(BlueprintCallable, Category = "Global")
-	void SetScore(AActor* actor, float score);
+	void SetScore(AActor* actor, int32 score);
 };
 
 
