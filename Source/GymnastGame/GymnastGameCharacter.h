@@ -107,7 +107,9 @@ public:
 	/* Called when a chareter lands on the ground after a launch */
 	UFUNCTION(BlueprintNativeEvent, Category = "Swing Physics")
 	void HasLanded();
-
+	/* Called when a chareter lands on the ground after a launch */
+	UFUNCTION(BlueprintNativeEvent, Category = "Swing Physics")
+	void SetSwinging(ASwingActorBase* swingActor);
 	/* Called when Force should be added to the swing actor to simulate pendulam mechanics  */
 	UFUNCTION(BlueprintImplementableEvent, Category = "Swing Control")
 	void AddImpulseToSwing(int32 direction);

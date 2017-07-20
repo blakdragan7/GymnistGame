@@ -31,6 +31,5 @@ public:
 	float FarDistance;
 	/* Spawn Next Swing Actor Based on LastSwing */
 	UFUNCTION(BlueprintCallable, Category = "Swing Spawn")
-	AActor* SpawnNextSwing(TSubclassOf<AActor> SwingClass,AActor* LastSwing);
-	
+	class ASwingActorBase* SpawnNextSwing(TSubclassOf<class ASwingActorBase> SwingClass,class ASwingActorBase* LastSwing);
 };

@@ -219,6 +219,11 @@ void AGymnastGameCharacter::WasLaunched_Implementation()
 	bNeedsNewStartingLocation = true;
 }
 
+void AGymnastGameCharacter::SetSwinging_Implementation(ASwingActorBase* swingActor)
+{
+
+}
+
 void AGymnastGameCharacter::HasLanded_Implementation()
 {
 	SetActorRotation(StartingActorRotation);
@@ -238,12 +243,12 @@ void AGymnastGameCharacter::OnResetVR()
 
 void AGymnastGameCharacter::TouchStarted(ETouchIndex::Type FingerIndex, FVector Location)
 {
-		Jump();
+	Jump();
 }
 
 void AGymnastGameCharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVector Location)
 {
-		StopJumping();
+	StopJumping();
 }
 
 void AGymnastGameCharacter::TurnAtRate(float Rate)

@@ -45,11 +45,16 @@ void USwingMovementComponent::TickComponent(float DeltaTime, enum ELevelTick Tic
 	{
 		FRotator rotation = PhysicsComponent->GetComponentRotation();
 		float TangentForce = FMath::Sin(FMath::DegreesToRadians(rotation.Pitch)) * 980 * DeltaTime;
-		FVector AngVel(TangentForce, TangentForce, TangentForce);
-		PhysicsComponent->SetPhysicsAngularVelocity(AngVel,true);
-        
-		if (PhysicsComponent->GetComponentVelocity().IsNearlyZero(5))bIsZeroVelocity = true;
-        else bIsZeroVelocity = false;
+		GEngine->AddOnScreenDebugMessage(5, 1.0f, FColor::Red, FString::Printf(TEXT("TangentForce %f !"), TangentForce));
+
+		if (TangentForce)
+		{
+			FVector AngVel(TangentForce, TangentForce, TangentForce);
+			PhysicsComponent->SetPhysicsAngularVelocity(AngVel, true);
+
+			if (PhysicsComponent->GetComponentVelocity().IsNearlyZero(5))bIsZeroVelocity = true;
+			else bIsZeroVelocity = false;
+		}
 	}
 }
 
