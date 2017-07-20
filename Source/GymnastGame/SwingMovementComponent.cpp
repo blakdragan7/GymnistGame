@@ -6,7 +6,7 @@
 #include "GymnastGameGameMode.h"
 #include "Runtime/Engine/Classes/Kismet/KismetMathLibrary.h"
 #include "Runtime/Engine/Classes/Components/StaticMeshComponent.h"
-
+#include "Engine.h"
 USwingMovementComponent::USwingMovementComponent()
 {
 	EnertiaMultiplier = 25;
