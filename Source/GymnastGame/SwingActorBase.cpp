@@ -68,7 +68,7 @@ void ASwingActorBase::HitBoxOverlapBegin(UPrimitiveComponent * OverlappedComp, A
 		}
 		if (IsValid(Spawner))
 		{
-			Spawner->SpawnNextSwing(SwingSpawnClass, this);
+			Spawner->SpawnNextSwing(SwingSpawnClass);
 		}
 	}
 }

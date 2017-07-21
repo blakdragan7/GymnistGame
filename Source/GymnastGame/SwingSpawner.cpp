@@ -11,6 +11,7 @@ ASwingSpawner::ASwingSpawner()
 	PrimaryActorTick.bCanEverTick = true;
 	NearDistance = 500;
 	FarDistance = 3000;
+	LastSwing = 0;
 }
 
 // Called when the game starts or when spawned
@@ -24,13 +25,12 @@ void ASwingSpawner::BeginPlay()
 void ASwingSpawner::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
-ASwingActorBase* ASwingSpawner::SpawnNextSwing(TSubclassOf<ASwingActorBase> SwingClass,ASwingActorBase* LastSwing)
+ASwingActorBase* ASwingSpawner::SpawnNextSwing(TSubclassOf<ASwingActorBase> SwingClass)
 {
 	FVector newLocation;
-	FRotator rotation(0,0,0);
+	
 	int32 newPoints = 0;
 	if (LastSwing)
 	{
@@ -44,10 +44,22 @@ ASwingActorBase* ASwingSpawner::SpawnNextSwing(TSubclassOf<ASwingActorBase> Swin
 
 	FTransform transform;
 	transform.SetLocation(newLocation);
-	transform.SetRotation(rotation.Quaternion());
+	transform.SetRotation(FQuat());
 
 	ASwingActorBase* actorBase = GetWorld()->SpawnActor<ASwingActorBase>(SwingClass, transform);
 	actorBase->PointsWorth = newPoints;
 	actorBase->Spawner = this;
+
+	LastSwing = actorBase;
+
+	AllSwings.Add(actorBase);
+
+	if (AllSwings.Num() > 6)
+	{
+		ASwingActorBase* FirstSwing = AllSwings[0];
+		AllSwings.Remove(FirstSwing);
+		GetWorld()->DestroyActor(FirstSwing);
+	}
+
 	return actorBase;
 }

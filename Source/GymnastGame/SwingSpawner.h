@@ -10,6 +10,9 @@ UCLASS()
 class GYMNASTGAME_API ASwingSpawner : public AActor
 {
 	GENERATED_BODY()
+private:
+	class ASwingActorBase* LastSwing;
+	TArray<class ASwingActorBase*> AllSwings;
 	
 public:	
 	// Sets default values for this actor's properties
@@ -31,5 +34,5 @@ public:
 	float FarDistance;
 	/* Spawn Next Swing Actor Based on LastSwing */
 	UFUNCTION(BlueprintCallable, Category = "Swing Spawn")
-	class ASwingActorBase* SpawnNextSwing(TSubclassOf<class ASwingActorBase> SwingClass,class ASwingActorBase* LastSwing);
+	class ASwingActorBase* SpawnNextSwing(TSubclassOf<class ASwingActorBase> SwingClass);
 };
