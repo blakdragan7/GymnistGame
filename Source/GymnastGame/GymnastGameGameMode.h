@@ -13,6 +13,14 @@ class AGymnastGameGameMode : public AGameModeBase
 
 public:
 	AGymnastGameGameMode();
+
+	virtual void Tick(float DeltaTime) override;
+	/* Map name to transition to on death */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Level Settings")
+	FName OnDeathMapName;
+	/* Z Position That the Main Pawn reaches to determine game over ex. failed the level */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Level Settings")
+	float ZKillPosition;
 	/* Max Launch Velocity allowed for Level */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Launch Settings")
 	float MaxLaunchVelocity;

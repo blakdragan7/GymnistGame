@@ -7,7 +7,11 @@
 
 AGymnastGameGameMode::AGymnastGameGameMode()
 {
+	PrimaryActorTick.bStartWithTickEnabled = true;
+	PrimaryActorTick.bCanEverTick = true;
+
 	GameScore = 0;
+	ZKillPosition = -1000.0;
 	MaxLaunchVelocity = 500.0f;
 	// set default pawn class to our Blueprinted character
 	//static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/ThirdPersonCPP/Blueprints/ThirdPersonCharacter"));
@@ -17,6 +21,18 @@ AGymnastGameGameMode::AGymnastGameGameMode()
 #if PLATFORM_IOS
 		FPlatformMisc::ControlScreensaver(FPlatformMisc::EScreenSaverAction::Disable);
 #endif
+	}
+}
+
+
+void AGymnastGameGameMode::Tick(float DeltaTime)
+{
+	if (ACharacter* player = UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetCharacter())
+	{
+		if (player->GetActorLocation().Z <= ZKillPosition)
+		{
+			UGameplayStatics::OpenLevel(GetWorld(), OnDeathMapName);
+		}
 	}
 }
 

@@ -31,14 +31,13 @@ ASwingActorBase* ASwingSpawner::SpawnNextSwing(TSubclassOf<ASwingActorBase> Swin
 {
 	FVector newLocation;
 	
-	int32 newPoints = 0;
+	int32 newPoints = 100;
 	if (LastSwing)
 	{
 		FVector lastLocation = LastSwing->GetActorLocation();
 		int32 lastPoints = LastSwing->PointsWorth;
 
 		newPoints = lastPoints * 1.2;
-		if (newPoints == 0) newPoints = 100;
 		newLocation = lastLocation + FVector(FMath::RandRange(NearDistance, FarDistance),0, 0);
 	}
 
