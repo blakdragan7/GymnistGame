@@ -41,11 +41,7 @@ ASwingActorBase* ASwingSpawner::SpawnNextSwing(TSubclassOf<ASwingActorBase> Swin
 		newLocation = lastLocation + FVector(FMath::RandRange(NearDistance, FarDistance),0, 0);
 	}
 
-	FTransform transform;
-	transform.SetLocation(newLocation);
-	transform.SetRotation(FQuat());
-
-	ASwingActorBase* actorBase = GetWorld()->SpawnActor<ASwingActorBase>(SwingClass, transform);
+	ASwingActorBase* actorBase = GetWorld()->SpawnActor<ASwingActorBase>(SwingClass, newLocation,FRotator());
 	actorBase->PointsWorth = newPoints;
 	actorBase->Spawner = this;
 
