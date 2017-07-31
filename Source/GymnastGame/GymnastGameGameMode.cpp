@@ -31,7 +31,8 @@ void AGymnastGameGameMode::Tick(float DeltaTime)
 	{
 		if (player->GetActorLocation().Z <= ZKillPosition)
 		{
-			UGameplayStatics::OpenLevel(GetWorld(), OnDeathMapName);
+			GetWorld()->SeamlessTravel(TEXT("?restart"));
+			//UGameplayStatics::OpenLevel(GetWorld(), OnDeathMapName);
 		}
 	}
 }

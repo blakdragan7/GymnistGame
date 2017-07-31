@@ -9,7 +9,7 @@ ASwingSpawner::ASwingSpawner()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	NearDistance = 500;
+	NearDistance = 1000;
 	FarDistance = 3000;
 	LastSwing = 0;
 }

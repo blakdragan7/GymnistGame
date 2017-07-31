@@ -18,6 +18,8 @@ class GYMNASTGAME_API ASwingActorBase : public AActor
 	GENERATED_BODY()
 	
 private:
+	bool AlreadyHadActor;
+
 	/* Components */
 	UPROPERTY(Category = Swing, VisibleAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	USwingMovementComponent* SwingMovement;

@@ -13,6 +13,8 @@
 // Sets default values
 ASwingActorBase::ASwingActorBase()
 {
+	AlreadyHadActor = false;
+
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -62,13 +64,18 @@ void ASwingActorBase::HitBoxOverlapBegin(UPrimitiveComponent * OverlappedComp, A
 		player->GetCharacterMovement()->SetMovementMode(MOVE_None);
 		player->SetSwinging(this);
 		SwingingPlayer = player;
-		if (AGymnastGameGameMode* GameMode = GetWorld()->GetAuthGameMode<AGymnastGameGameMode>())
+		if (!AlreadyHadActor)
 		{
-			GameMode->AddScore(this,PointsWorth);
-		}
-		if (IsValid(Spawner))
-		{
-			Spawner->SpawnNextSwing(SwingSpawnClass);
+			if (AGymnastGameGameMode* GameMode = GetWorld()->GetAuthGameMode<AGymnastGameGameMode>())
+			{
+				GameMode->AddScore(this, PointsWorth);
+			}
+			if (IsValid(Spawner))
+			{
+				Spawner->SpawnNextSwing(SwingSpawnClass);
+			}
+
+			AlreadyHadActor = true;
 		}
 	}
 }
