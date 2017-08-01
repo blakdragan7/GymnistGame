@@ -9,8 +9,8 @@ ASwingSpawner::ASwingSpawner()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	NearDistance = 1000;
-	FarDistance = 3000;
+	NearDistance = FVector2D(1000,-800);
+	FarDistance = FVector2D(3000,800);
 	LastSwing = 0;
 }
 
@@ -29,7 +29,7 @@ void ASwingSpawner::Tick(float DeltaTime)
 
 ASwingActorBase* ASwingSpawner::SpawnNextSwing(TSubclassOf<ASwingActorBase> SwingClass)
 {
-	FVector newLocation;
+	FVector newLocation(0,0,0);
 	
 	int32 newPoints = 100;
 	if (LastSwing)
@@ -38,7 +38,7 @@ ASwingActorBase* ASwingSpawner::SpawnNextSwing(TSubclassOf<ASwingActorBase> Swin
 		int32 lastPoints = LastSwing->PointsWorth;
 
 		newPoints = lastPoints * 1.2;
-		newLocation = lastLocation + FVector(FMath::RandRange(NearDistance, FarDistance),0, 0);
+		newLocation = lastLocation + FVector(FMath::RandRange(NearDistance.X, FarDistance.X), FMath::RandRange(NearDistance.Y, FarDistance.Y), 0);
 	}
 
     FTransform transform;

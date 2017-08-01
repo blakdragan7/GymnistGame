@@ -28,10 +28,10 @@ public:
 
 	/* Closest Distance the next Swing will be spawned */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawn Settings")
-	float NearDistance;
+	FVector2D NearDistance;
 	/* Farthest Distance the next Swing will be spawned */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawn Settings")
-	float FarDistance;
+	FVector2D FarDistance;
 	/* Spawn Next Swing Actor Based on LastSwing */
 	UFUNCTION(BlueprintCallable, Category = "Swing Spawn")
 	class ASwingActorBase* SpawnNextSwing(TSubclassOf<class ASwingActorBase> SwingClass);
