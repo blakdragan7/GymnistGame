@@ -7,7 +7,7 @@ void UFlightCharacterMovementComponent::PhysCustom(float deltaTime, int32 Iterat
 {
 	AGymnastGameCharacter* character = Cast<AGymnastGameCharacter>(GetCharacterOwner());
 	FVector totalForces;
-
+	lastDT = deltaTime;
 	if (Velocity.Z <= 0)
 	{
 		if (!HasReachedPeekHeight)
@@ -30,27 +30,26 @@ void UFlightCharacterMovementComponent::PhysCustom(float deltaTime, int32 Iterat
 		InstantaneousCustomForce = FVector();
 		customForceToggle = false;
 	}
-
+	
 	float pitchZSteerAdjust = FMath::Clamp<float>((PitchSteer * PitchSteerZAmount), -PitchSteerZAmount, 0);
 	float pitchXSteerAdjust = FMath::Clamp<float>((PitchSteer * PitchSteerXAmount), -PitchSteerXAmount, 0);
 
-	totalForces.X -= FMath::Clamp<float>((PitchSteer * PitchSteerXAmount), -PitchSteerXAmount, 0);
-	totalForces.Z += pitchZSteerAdjust;
+	if (AllowZSteer)totalForces.X -= FMath::Clamp<float>((PitchSteer * PitchSteerXAmount), -PitchSteerXAmount, 0);
+	if (AllowZSteer)totalForces.Z += pitchZSteerAdjust;
+	
+	//GEngine->AddOnScreenDebugMessage(0, 0.5f, FColor::Red, totalForces.ToString());
 
-	Velocity += totalForces * deltaTime;
-	GEngine->AddOnScreenDebugMessage(1, 0.5f, FColor::Red, FString::Printf(TEXT("PitchSteer %f"), PitchSteer));
-	GEngine->AddOnScreenDebugMessage(2, 0.5f, FColor::Red, FString::Printf(TEXT("PitchSteerX %f"), pitchXSteerAdjust));
-	GEngine->AddOnScreenDebugMessage(3, 0.5f, FColor::Red, FString::Printf(TEXT("PitchSteerZ %f"), pitchZSteerAdjust));
+	Velocity += totalForces * lastDT;
 
 	// Apply Drag
 	Velocity *= CustomDrag;
-	if(HasReachedPeekHeight)Velocity.Z = FMath::Max(Velocity.Z, (GravityFallLimit + pitchZSteerAdjust));
+	if(HasReachedPeekHeight && AdjustFromHeight)Velocity.Z = FMath::Max(Velocity.Z, (GravityFallLimit + pitchZSteerAdjust));
 	
-	Velocity.X = FMath::Clamp<float>(Velocity.X,0, TNumericLimits< float >::Max());
+	Velocity.X = FMath::Max(0.0f, Velocity.X);
 	// Move Charecter
 	FHitResult Hit;
 	FVector CurrentActorLocation = GetActorLocation();
-	bool success = SafeMoveUpdatedComponent((Velocity+FSteerForce)*deltaTime, UpdatedComponent->GetComponentRotation(), true, Hit);
+	bool success = SafeMoveUpdatedComponent((Velocity+FSteerForce)*lastDT, UpdatedComponent->GetComponentRotation(), true, Hit);
 	if (!success)
 	{
 		HasReachedPeekHeight = false;
@@ -74,6 +73,9 @@ UFlightCharacterMovementComponent::UFlightCharacterMovementComponent()
 	PitchSteer = 0.0;
 	PitchSteerZAmount = 1000;
 	PitchSteerXAmount = 1000;
+	AdjustFromHeight = false;
+	AllowZSteer = false;
+	FSteerForce = FVector(0,0,0);
 }
 
 void UFlightCharacterMovementComponent::ApplyInstantaneousForce(const FVector newCustomFoce)

@@ -19,6 +19,7 @@ private:
 	FVector FSteerForce;
 
 	FVector InstantaneousCustomForce;
+	float lastDT;
 	bool customForceToggle;
 	bool HasReachedPeekHeight;
 
@@ -45,11 +46,17 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flight Physics", meta = (AllowPrivateAcces = "true"))
 	FVector ConstCustomForce;
 	/** Max Amount Pitch Can Control Movement in the X Direction */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Swing Control")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flight Physics")
 	float PitchSteerXAmount;
 	/** Max Amount Pitch Can Control Movement in the Z Direction */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Swing Control")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flight Physics")
 	float PitchSteerZAmount;
+	/** wether or not gravity will be changed after mex height was hit */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flight Physics")
+	float AdjustFromHeight;
+	/** wether or not zsteer will be used */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flight Physics")
+	float AllowZSteer;
 	/* Applies a custom force, param newCustomForce, that is instantaneous, it's similiar to Add Impulse*/
 	UFUNCTION(BlueprintCallable, Category = "Flight Physics")
 	void ApplyInstantaneousForce(const FVector newCustomFoce);
